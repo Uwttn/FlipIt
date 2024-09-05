@@ -19,6 +19,7 @@
  */
 body {
   margin: 0;
+  background-color: #f1f3f5;
 }
 
 /**
@@ -932,7 +933,7 @@ a:hover {
 }
 
 .bg-light {
-  background-color: #d9e9e8 !important;
+  background-color: #d9e9e8 !important; 
 }
 
 .bg-dark {
@@ -1160,6 +1161,11 @@ form .form-input.form-input-squared {
 form [type='checkbox'],
 form [type='radio'] {
   display: inline-block;
+}
+
+header {
+  background-color: #63b6c3;
+  color: #000000;
 }
 
 label form [type='checkbox'],
