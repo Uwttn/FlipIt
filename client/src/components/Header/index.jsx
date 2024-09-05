@@ -1,6 +1,5 @@
-import { Link } from "react-router-dom";
-
 import Auth from "../../utils/auth";
+import { Link } from '@chakra-ui/react'
 
 const Header = () => {
   const logout = (event) => {
@@ -8,30 +7,44 @@ const Header = () => {
     Auth.logout();
   };
   return (
-    <header className='bg-primary text-light mb-4 py-3 flex-row align-center'>
-      <div className='container flex-row justify-space-between-lg justify-center align-center'>
+    <header className='flex-row align-center'>
+      <div className='container-nav flex-row justify-space-between-lg justify-center align-center'>
         <div>
           <Link className='text-light' to='/'>
-            <h1 className='m-0'>The Witcher</h1>
+          <img className="logo" src="FlipIt Logo.png" alt="FlipIt Logo" />
           </Link>
-          <p className='m-0'>Let's talk monsters.</p>
         </div>
-        <div>
+        <div className="menu">
           {Auth.loggedIn() ? (
             <>
-              <Link className='btn btn-lg btn-info m-2' to='/me'>
-                {Auth.getProfile().data.username}'s profile
+        <Link className='header-link' href='/create'>
+                Create Deck
               </Link>
-              <button className='btn btn-lg btn-light m-2' onClick={logout}>
+              <Link className='header-link' href='/decks'>
+                My Decks
+              </Link>
+              <Link className='header-link' href='/study'>
+                Study Mode
+              </Link>
+              <button className='' onClick={logout}>
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link className='btn btn-lg btn-info m-2' to='/login'>
+              <Link className='header-link' href='/create'>
+                Create Deck
+              </Link>
+              <Link className='header-link' href='/decks'>
+                My Decks
+              </Link>
+              <Link className='header-link' href='/study'>
+                Study Mode
+              </Link>
+              <Link className='header-link' href='/login'>
                 Login
               </Link>
-              <Link className='btn btn-lg btn-light m-2' to='/signup'>
+              <Link className='header-link' href='/signup'>
                 Signup
               </Link>
             </>
