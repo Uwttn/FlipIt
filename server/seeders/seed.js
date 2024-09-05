@@ -1,18 +1,18 @@
 const db = require("../config/connection");
-const { User, Monster } = require("../models");
+const { User, Card } = require("../models");
 const userSeeds = require("./userSeeds.json");
-const monsterSeeds = require("./monsterSeeds.json");
+const cardSeeds = require("./cardSeeds.json");
 const cleanDB = require("./cleanDB");
 
 db.once("open", async () => {
   try {
-    await cleanDB("Monster", "monsters");
+    await cleanDB("Card", "cards");
 
     await cleanDB("User", "users");
 
     await User.create(userSeeds);
 
-    await Monster.create(monsterSeeds);
+    await Card.create(cardSeeds);
   } catch (err) {
     console.error(err);
     process.exit(1);

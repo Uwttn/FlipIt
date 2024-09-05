@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import Home from "./pages/Home";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
-import SingleMonster from "./pages/SingleMonster";
+import SingleCard from "./pages/SingleCard";
 import Profile from "./pages/Profile";
 import ErrorPage from "./pages/ErrorPage";
 
@@ -36,8 +36,8 @@ const router = createBrowserRouter([
         element: <Profile />,
       },
       {
-        path: "/monsters/:monsterId",
-        element: <SingleMonster />,
+        path: "/cards/:cardId",
+        element: <SingleCard />,
       },
     ],
   },

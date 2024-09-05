@@ -1,13 +1,13 @@
 import { useQuery } from "@apollo/client";
 
-import MonsterList from "../components/MonsterList";
-import MonsterForm from "../components/MonsterForm";
+import CardList from "../components/CardList";
+import CardForm from "../components/CardForm";
 
-import { QUERY_MONSTERS } from "../utils/queries";
+import { QUERY_CARDS } from "../utils/queries";
 
 const Home = () => {
-  const { loading, data } = useQuery(QUERY_MONSTERS);
-  const monsters = data?.monsters || [];
+  const { loading, data } = useQuery(QUERY_CARDS);
+  const cards = data?.cards || [];
 
   return (
     <main>
@@ -16,13 +16,13 @@ const Home = () => {
           className='col-12 col-md-10 mb-3 p-3'
           style={{ border: "1px dotted #1a1a1a" }}
         >
-          <MonsterForm />
+          <CardForm />
         </div>
         <div className='col-12 col-md-8 mb-3'>
           {loading ? (
             <div>Loading...</div>
           ) : (
-            <MonsterList monsters={monsters} title='Witcher Monsters' />
+            <CardList cards={cards} title='Witcher Cards' />
           )}
         </div>
       </div>
