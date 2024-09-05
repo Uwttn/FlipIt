@@ -1,0 +1,52 @@
+[
+  {
+    "cardName": "question 1",
+    "question": "Which Pokémon is known for being the 'electric mouse'?",
+    "answer": "Pikachu"
+  },
+  {
+    "cardName": "question 2",
+    "question": "What item is needed to evolve a Haunter into a Gengar?",
+    "answer": "Trade"
+  },
+  {
+    "cardName": "question 3",
+    "question": "Which Pokémon can learn the move 'Surf' despite not being a Water type?",
+    "answer": "Pikachu (with a special event or move tutor)"
+  },
+  {
+    "cardName": "question 4",
+    "question": "What is the name of the Legendary Pokémon associated with the moon?",
+    "answer": "Lunala"
+  },
+  {
+    "cardName": "question 5",
+    "question": "Which Grass-type Pokémon is the final evolution of the Bulbasaur line?",
+    "answer": "Venusaur"
+  },
+  {
+    "cardName": "question 6",
+    "question": "What is the ability of the Pokémon Shedinja that makes it unique?",
+    "answer": "Wonder Guard"
+  },
+  {
+    "cardName": "question 7",
+    "question": "Which Pokémon evolves into Gyarados?",
+    "answer": "Magikarp"
+  },
+  {
+    "cardName": "question 8",
+    "question": "What is the Psychic/Fairy-type Pokémon introduced in Generation VI?",
+    "answer": "Gardevoir"
+  },
+  {
+    "cardName": "question 9",
+    "question": "Which Pokémon is known as the 'Shadow Pokémon' in Pokémon Colosseum?",
+    "answer": "Shadow Lugia"
+  },
+  {
+    "cardName": "question 10",
+    "question": "What is the signature move of the Fire-type Pokémon, Blaziken?",
+    "answer": "Blaze Kick"
+  }
+]

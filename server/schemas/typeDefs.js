@@ -6,20 +6,11 @@ const typeDefs = `
     password: String
   }
 
-  type Monster {
+  type Card {
     _id: ID
-    monsterName: String!
-    type: String!
-    habitat: String!
-    weaknesses: [String]!
-    comments: [Comment]
-  }
-
-  type Comment {
-    _id: ID
-    commentText: String
-    commentAuthor: String
-    createdAt: String
+    cardName: String!
+    question: String!
+    answers: [String]!
   }
 
   type Auth {
@@ -30,20 +21,17 @@ const typeDefs = `
   type Query {
     users: [User]
     user(username: String!): User
-    monsters(username: String): [Monster]
-    monster(monsterId: ID!): Monster
+    cards(username: String): [Card]
+    card(cardId: ID!): Card
     me: User
   }
 
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addMonster(monsterName: String!, type: String!, habitat: String!, weaknesses: [String]!): Monster
-    updateMonster(monsterId: ID!, monsterName: String, type: String, habitat: String, weaknesses: [String]): Monster
-      removeMonster(monsterId: ID!): Monster
-    addComment(monsterId: ID!, commentText: String!): Monster
-    updateComment(monsterId: ID!, commentId: ID!, commentText: String!): Monster
-    removeComment(monsterId: ID!, commentId: ID!): Monster
+    addCard(cardName: String!, question: String!, answers: [String]!): Card
+    updateCard(cardId: ID!, cardName: String, question: String, answers: [String]): Card
+      removeCard(cardId: ID!): Card
   }
 `;
 
