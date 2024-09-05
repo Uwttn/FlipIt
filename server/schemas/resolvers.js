@@ -1,23 +1,23 @@
-const { User, Monster } = require("../models");
+const { User, Card } = require("../models");
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate("monsters");
+      return User.find().populate("cards");
     },
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate("monsters");
+      return User.findOne({ username }).populate("cards");
     },
-    monsters: async () => {
-      return Monster.find().sort({ name: 1 });
+    cards: async () => {
+      return Card.find().sort({ name: 1 });
     },
-    monster: async (parent, { monsterId }) => {
-      return Monster.findOne({ _id: monsterId });
+    card: async (parent, { cardId }) => {
+      return Card.findOne({ _id: cardId });
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("comments");
+        return User.findOne({ _id: context.user._id });
       }
       throw AuthenticationError;
     },
@@ -46,76 +46,34 @@ const resolvers = {
 
       return { token, user };
     },
-    addMonster: async (parent, { monsterName, type, habitat, weaknesses }) => {
-      const monster = await Monster.create({
-        monsterName,
+    addCard: async (parent, { cardName, type, question, answers }) => {
+      const card = await Card.create({
+        cardName,
         type,
-        habitat,
-        weaknesses,
+        question,
+        answers,
       });
 
-      return monster;
+      return card;
     },
-    addComment: async (parent, { monsterId, commentText }, context) => {
-      if (context.user) {
-        return Monster.findOneAndUpdate(
-          { _id: monsterId },
-          {
-            $addToSet: {
-              comments: { commentText, commentAuthor: context.user.username },
-            },
-          },
-          {
-            new: true,
-            runValidators: true,
-          }
-        );
-      }
-      throw AuthenticationError;
-    },
-    removeMonster: async (parent, { monsterId }, context) => {
-      const monster = await Monster.findOneAndDelete({
-        _id: monsterId,
+    removeCard: async (parent, { cardId }, context) => {
+      const card = await Card.findOneAndDelete({
+        _id: cardId,
       });
 
-      return monster;
+      return card;
     },
-    removeComment: async (parent, { monsterId, commentId }, context) => {
-      if (context.user) {
-        return Monster.findOneAndUpdate(
-          { _id: monsterId },
-          {
-            $pull: {
-              comments: {
-                _id: commentId,
-                commentAuthor: context.user.username,
-              },
-            },
-          },
-          { new: true }
-        );
-      }
-      throw AuthenticationError;
-    },
-    updateComment: async (parent, { monsterId, commentId, commentText }) => {
-      return Monster.findOneAndUpdate(
-        { _id: monsterId, "comments._id": commentId },
-        { $set: { "comments.$.commentText": commentText } },
-        { new: true }
-      );
-    },
-    updateMonster: async (
+    updateCard: async (
       parent,
-      { monsterId, monsterName, type, habitat, weaknesses }
+      { cardId, cardName, type, question, answers }
     ) => {
       const updateFields = {};
-      if (monsterName) updateFields.monsterName = monsterName;
-      if (type) updateFields.type = type;
-      if (habitat) updateFields.habitat = habitat;
-      if (weaknesses) updateFields.weaknesses = weaknesses;
+      if (cardName) updateFields.cardName = cardName;
+      if (question) updateFields.question = question;
+      if (answers) updateFields.answers = answers;
 
-      return Monster.findOneAndUpdate(
-        { _id: monsterId },
+      return Card.findOneAndUpdate(
+        { _id: cardId },
         { $set: updateFields },
         { new: true }
       );

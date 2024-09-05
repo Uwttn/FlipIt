@@ -1,36 +1,34 @@
 import { useState } from "react";
 import { useMutation } from "@apollo/client";
 
-import { ADD_MONSTER } from "../../utils/mutations";
-import { QUERY_MONSTERS } from "../../utils/queries";
+import { ADD_CARD } from "../../utils/mutations";
+import { QUERY_CARDS } from "../../utils/queries";
 
-const MonsterForm = () => {
+const CardForm = () => {
   const [formState, setFormState] = useState({
-    monsterName: "",
-    type: "",
-    habitat: "",
-    weaknesses: [],
+    cardName: "",
+    question: "",
+    answers: [],
   });
-  const [weaknessInput, setWeaknessInput] = useState("");
-  const [addMonster, { error }] = useMutation(ADD_MONSTER, {
-    refetchQueries: [QUERY_MONSTERS, "getMonsters"],
+  const [answerInput, setAnswerInput] = useState("");
+  const [addCard, { error }] = useMutation(ADD_CARD, {
+    refetchQueries: [QUERY_CARDS, "getCards"],
   });
 
   const handleFormSubmit = async (event) => {
     event.preventDefault();
 
     try {
-      const { data } = await addMonster({
+      const { data } = await addCard({
         variables: { ...formState },
       });
       console.log(data);
       setFormState({
-        monsterName: "",
-        type: "",
-        habitat: "",
-        weaknesses: [],
+        cardName: "",
+        question: "",
+        answers: [],
       });
-      setWeaknessInput("");
+      setAnswerInput("");
     } catch (err) {
       console.error(err);
     }
@@ -40,29 +38,29 @@ const MonsterForm = () => {
     const { name, value } = event.target;
     setFormState({ ...formState, [name]: value });
   };
-  const handleWeaknessChange = (event) => {
-    setWeaknessInput(event.target.value);
+  const handleAnswerChange = (event) => {
+    setAnswerInput(event.target.value);
   };
-  const handleAddWeakness = () => {
-    if (weaknessInput.trim() !== "") {
+  const handleAddAnswer = () => {
+    if (answerInput.trim() !== "") {
       setFormState({
         ...formState,
-        weaknesses: [...formState.weaknesses, weaknessInput],
+        answers: [...formState.answers, answerInput],
       });
-      setWeaknessInput("");
+      setAnswerInput("");
     }
   };
 
-  const handleRemoveWeakness = (index) => {
-    const updatedWeaknesses = formState.weaknesses.filter(
+  const handleRemoveAnswer = (index) => {
+    const updatedAnswers = formState.answers.filter(
       (_, idx) => idx !== index
     );
-    setFormState({ ...formState, weaknesses: updatedWeaknesses });
+    setFormState({ ...formState, answers: updatedAnswers });
   };
 
   return (
     <div>
-      <h3>Add Monster?</h3>
+      <h3>Add Card?</h3>
 
       <form
         className='flex-row justify-center justify-space-between-md align-center'
@@ -70,25 +68,18 @@ const MonsterForm = () => {
       >
         <div className='col-12 col-lg-9'>
           <textarea
-            name='monsterName'
-            placeholder="Here's a new monster..."
-            value={formState.monsterName}
+            name='cardName'
+            placeholder="Name your card..."
+            value={formState.cardName}
             className='form-input w-100'
             style={{ lineHeight: "1.5", resize: "vertical" }}
             onChange={handleChange}
           ></textarea>
+      
           <textarea
-            name='type'
-            placeholder='What type of monster is it?'
-            value={formState.type}
-            className='form-input w-100'
-            style={{ lineHeight: "1.5", resize: "vertical" }}
-            onChange={handleChange}
-          ></textarea>
-          <textarea
-            name='habitat'
-            placeholder='Where does it live?'
-            value={formState.habitat}
+            name='question'
+            placeholder='Question'
+            value={formState.question}
             className='form-input w-100'
             style={{ lineHeight: "1.5", resize: "vertical" }}
             onChange={handleChange}
@@ -97,23 +88,23 @@ const MonsterForm = () => {
           <div>
             <input
               type='text'
-              placeholder='Enter a weakness'
-              value={weaknessInput}
-              onChange={handleWeaknessChange}
+              placeholder='Enter an answer'
+              value={answerInput}
+              onChange={handleAnswerChange}
             />
-            <button type='button' onClick={handleAddWeakness}>
-              Add Weakness
+            <button type='button' onClick={handleAddAnswer}>
+              Add Answer
             </button>
           </div>
           <div>
-            <h4>Weaknesses:</h4>
+            <h4>Answers:</h4>
             <ul>
-              {formState.weaknesses.map((weakness, index) => (
+              {formState.answers.map((answer, index) => (
                 <li key={index}>
-                  {weakness}
+                  {answer}
                   <button
                     type='button'
-                    onClick={() => handleRemoveWeakness(index)}
+                    onClick={() => handleRemoveAnswer(index)}
                   >
                     Remove
                   </button>
@@ -125,7 +116,7 @@ const MonsterForm = () => {
 
         <div className='col-12 col-lg-3'>
           <button className='btn btn-primary btn-block py-3' type='submit'>
-            Add Monster
+            Add Card
           </button>
         </div>
         {error && (
@@ -138,4 +129,4 @@ const MonsterForm = () => {
   );
 };
 
-export default MonsterForm;
+export default CardForm;
