@@ -9,8 +9,8 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("cards");
     },
-    decks: async () => {
-      return Deck.find().populate("cards");
+    decks: async (parent, args, context) => {
+      return Deck.find({ user: context.user._id }).populate("cards");
     },
     deck: async (parent, { deckId }) => {
       return Deck.findOne({ _id: deckId }).populate("cards");
@@ -52,12 +52,12 @@ const resolvers = {
 
       return { token, user };
     },
-    addDeck: async (parent, { deckName, cardIds }) => {
+    addDeck: async (parent, { deckName, cardIds }, context) => {
       const deck = await Deck.create({
         deckName,
         cards: cardIds,
+        user: context.user._id,
       });
-
       return deck;
     },
     removeDeck: async (parent, { deckId }) => {

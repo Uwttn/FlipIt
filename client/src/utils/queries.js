@@ -10,6 +10,15 @@ export const QUERY_USER = gql`
   }
 `;
 
+export const QUERY_DECKS = gql`
+  query getDecks {
+    decks {
+      _id
+      deckName
+    }
+  }
+`;
+
 export const QUERY_CARDS = gql`
   query getCards {
     cards {
