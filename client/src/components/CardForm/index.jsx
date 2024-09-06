@@ -6,7 +6,6 @@ import { QUERY_CARDS } from "../../utils/queries";
 
 const CardForm = () => {
   const [formState, setFormState] = useState({
-    cardName: "",
     question: "",
     answers: [],
   });
@@ -24,7 +23,6 @@ const CardForm = () => {
       });
       console.log(data);
       setFormState({
-        cardName: "",
         question: "",
         answers: [],
       });

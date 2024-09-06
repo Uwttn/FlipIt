@@ -1,10 +1,6 @@
 const { Schema, model } = require("mongoose");
 
 const cardSchema = new Schema({
-  cardName: {
-    type: String,
-    required: false,
-  },
   question: {
     type: String,
     required: true,

@@ -14,7 +14,6 @@ export const QUERY_CARDS = gql`
   query getCards {
     cards {
       _id
-      cardName
       question
       answers
     }
@@ -25,7 +24,6 @@ export const QUERY_SINGLE_CARD = gql`
   query getSingleCard($cardId: ID!) {
     card(cardId: $cardId) {
       _id
-      cardName
       question
       answers
     }
