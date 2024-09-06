@@ -4,10 +4,10 @@ const { signToken, AuthenticationError } = require("../utils/auth");
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate("cards");
+      return User.find().populate("decks");
     },
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate("cards");
+      return User.findOne({ username }).populate("decks");
     },
     decks: async (parent, args, context) => {
       return Deck.find({ user: context.user._id }).populate("cards");
@@ -23,9 +23,9 @@ const resolvers = {
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id }).populate("cards");
+        return User.findById( context.user._id ).populate("decks");
       }
-      throw new AuthenticationError("Not authenticated");
+      throw AuthenticationError("Not authenticated");
     },
   },
 
@@ -53,12 +53,18 @@ const resolvers = {
       return { token, user };
     },
     addDeck: async (parent, { deckName, cardIds }, context) => {
+      console.log(context.user._id);
       const deck = await Deck.create({
         deckName,
         cards: cardIds,
         user: context.user._id,
       });
-      return deck;
+      const updateUser = await User.findOneAndUpdate(
+        {_id: context.user._id},
+        {$push: {decks: deck}},
+        {new: true},
+      ).populate("decks");
+      return updateUser;
     },
     removeDeck: async (parent, { deckId }) => {
       const deck = await Deck.findOneAndDelete({

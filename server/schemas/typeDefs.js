@@ -4,25 +4,23 @@ const typeDefs = `
     username: String
     email: String
     password: String
+    decks: [Deck]
   }
-
   type Deck {
     _id: ID
     deckName: String!
     cards: [Card]
+    user: User
   }
-
   type Card {
     _id: ID
     question: String!
     answer: [String]!
   }
-
   type Auth {
     token: ID!
     user: User
   }
-
   type Query {
     users: [User]
     user(username: String!): User
@@ -32,23 +30,15 @@ const typeDefs = `
     card(cardId: ID!): Card
     me: User
   }
-
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addDeck(deckName: String!, cardIds: [ID]!): Deck
-    updateDeck(_id: ID!, deckName: String, cardIds: [ID]): Deck
+    addDeck(deckName: String!, cardIds: [ID]!): User
+    updateDeck(_id: ID!, deckName: String, cardIds: [ID]): User
     removeDeck(_id: ID!): Deck
     addCard(_id: ID, question: String!, answers: [String]!): Card
     updateCard(_id: ID!, question: String, answers: [String]): Card
     removeCard(_id: ID!): Card
-
-    updateDeck(deckId: ID!, deckName: String, cardIds: [ID]): Deck
-    removeDeck(deckId: ID!): Deck
-    addCard(cardId: ID!, question: String!, answer: [String]!): Card
-    updateCard(cardId: ID!, question: String, answer: [String]): Card
-    removeCard(cardId: ID!): Card
   }
 `;
-
 module.exports = typeDefs;
