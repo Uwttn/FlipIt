@@ -1,4 +1,4 @@
-const { User, Card } = require("../models");
+const { User, Card, Deck } = require("../models"); // Import Deck model
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
@@ -9,6 +9,12 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("cards");
     },
+    decks: async () => {
+      return Deck.find().populate("cards");
+    },
+    deck: async (parent, { deckId }) => {
+      return Deck.findOne({ _id: deckId }).populate("cards");
+    },
     cards: async () => {
       return Card.find().sort({ name: 1 });
     },
@@ -17,9 +23,9 @@ const resolvers = {
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findOne({ _id: context.user._id });
+        return User.findOne({ _id: context.user._id }).populate("cards");
       }
-      throw AuthenticationError;
+      throw new AuthenticationError("Not authenticated");
     },
   },
 
@@ -33,18 +39,44 @@ const resolvers = {
       const user = await User.findOne({ email });
 
       if (!user) {
-        throw AuthenticationError;
+        throw new AuthenticationError("Invalid credentials");
       }
 
       const correctPw = await user.isCorrectPassword(password);
 
       if (!correctPw) {
-        throw AuthenticationError;
+        throw new AuthenticationError("Invalid credentials");
       }
 
       const token = signToken(user);
 
       return { token, user };
+    },
+    addDeck: async (parent, { deckName, cardIds }) => {
+      const deck = await Deck.create({
+        deckName,
+        cards: cardIds,
+      });
+
+      return deck;
+    },
+    removeDeck: async (parent, { deckId }) => {
+      const deck = await Deck.findOneAndDelete({
+        _id: deckId,
+      });
+
+      return deck;
+    },
+    updateDeck: async (parent, { deckId, deckName, cardIds }) => {
+      const updateFields = {};
+      if (deckName) updateFields.deckName = deckName;
+      if (cardIds) updateFields.cards = cardIds;
+
+      return Deck.findOneAndUpdate(
+        { _id: deckId },
+        { $set: updateFields },
+        { new: true }
+      );
     },
     addCard: async (parent, { cardName, question, answers }) => {
       const card = await Card.create({
@@ -55,17 +87,14 @@ const resolvers = {
 
       return card;
     },
-    removeCard: async (parent, { cardId }, context) => {
+    removeCard: async (parent, { cardId }) => {
       const card = await Card.findOneAndDelete({
         _id: cardId,
       });
 
       return card;
     },
-    updateCard: async (
-      parent,
-      { cardId, cardName, question, answers }
-    ) => {
+    updateCard: async (parent, { cardId, cardName, question, answers }) => {
       const updateFields = {};
       if (cardName) updateFields.cardName = cardName;
       if (question) updateFields.question = question;
