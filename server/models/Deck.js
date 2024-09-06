@@ -11,6 +11,10 @@ const deckSchema = new Schema({
       ref: "Card",
     },
   ],
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
 });
 
 const Deck = model("Deck", deckSchema);
