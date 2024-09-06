@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useMutation } from "@apollo/client";
 import { UPDATE_CARD } from "../../utils/mutations";
 import { QUERY_CARDS } from "../../utils/queries";
@@ -10,7 +10,6 @@ const UpdateCardForm = ({
 }) => {
   const [formState, setFormState] = useState({
     cardName: initialCardData.cardName,
-    type: initialCardData.type,
     question: initialCardData.question,
     answers: initialCardData.answers,
   });
@@ -18,7 +17,6 @@ const UpdateCardForm = ({
   useEffect(() => {
     setFormState({
       cardName: initialCardData.cardName,
-      type: initialCardData.type,
       question: initialCardData.question,
       answers: initialCardData.answers,
     });
@@ -34,7 +32,6 @@ const UpdateCardForm = ({
       await updateCard({ variables: { cardId, ...formState } });
       setFormState({
         cardName: "",
-        type: "",
         question: "",
         answers: [],
       });
@@ -49,19 +46,19 @@ const UpdateCardForm = ({
     setFormState({ ...formState, [name]: value });
   };
 
-  const handleWeaknessChange = (event, index) => {
-    const newWeaknesses = [...formState.answers];
-    newWeaknesses[index] = event.target.value;
-    setFormState({ ...formState, answers: newWeaknesses });
+  const handleAnswerChange = (event, index) => {
+    const newAnswers = [...formState.answers];
+    newAnswers[index] = event.target.value;
+    setFormState({ ...formState, answers: newAnswers });
   };
 
-  const handleRemoveWeakness = (index) => {
-    const newWeaknesses = [...formState.answers];
-    newWeaknesses.splice(index, 1);
-    setFormState({ ...formState, answers: newWeaknesses });
+  const handleRemoveAnswer = (index) => {
+    const newAnswers = [...formState.answers];
+    newAnswers.splice(index, 1);
+    setFormState({ ...formState, answers: newAnswers });
   };
 
-  const addWeakness = () => {
+  const addAnswer = () => {
     setFormState({ ...formState, answers: [...formState.answers, ""] });
   };
 
@@ -74,12 +71,6 @@ const UpdateCardForm = ({
         placeholder='Card Name'
       />
       <input
-        name='type'
-        value={formState.type}
-        onChange={handleChange}
-        placeholder='Type'
-      />
-      <input
         name='question'
         value={formState.question}
         onChange={handleChange}
@@ -89,16 +80,16 @@ const UpdateCardForm = ({
         <div key={index}>
           <input
             value={answer}
-            onChange={(event) => handleWeaknessChange(event, index)}
-            placeholder='Weakness'
+            onChange={(event) => handleAnswerChange(event, index)}
+            placeholder='Answer'
           />
-          <button type='button' onClick={() => handleRemoveWeakness(index)}>
+          <button type='button' onClick={() => handleRemoveAnswer(index)}>
             Remove
           </button>
         </div>
       ))}
-      <button type='button' onClick={addWeakness}>
-        Add Weakness
+      <button type='button' onClick={addAnswer}>
+        Add Answer
       </button>
       <button type='submit'>Update Card</button>
       {error && <div>Error: {error.message}</div>}

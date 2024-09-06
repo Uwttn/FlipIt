@@ -18,7 +18,7 @@ const CardList = ({ cards }) => {
               <p>{card.type}</p>
               <h5>Question:</h5>
               <p>{card.question}</p>
-              <h5>Weaknesses:</h5>
+              <h5>Answers:</h5>
               <ul>
                 {card.answers.map((answer, i) => (
                   <li key={answer[i]}>{answer}</li>
