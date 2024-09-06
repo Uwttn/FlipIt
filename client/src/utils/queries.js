@@ -40,11 +40,15 @@ export const QUERY_SINGLE_CARD = gql`
 `;
 
 export const QUERY_ME = gql`
-  query me {
-    me {
+query me {
+  me {
+    decks {
       _id
-      username
-      email
+      deckName
+      cards {
+        _id
+      }
     }
   }
+}
 `;
