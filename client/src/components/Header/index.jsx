@@ -32,7 +32,7 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Link className='header-link' href='/create'>
+              <Link className='header-link' href='/'>
                 Create Deck
               </Link>
               <Link className='header-link' href='/decks'>
