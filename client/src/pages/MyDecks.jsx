@@ -2,17 +2,10 @@ import { useQuery } from '@apollo/client';
 import { Link } from 'react-router-dom';
 import { Card, CardHeader, CardBody, CardFooter, SimpleGrid, Heading, Button, Text } from '@chakra-ui/react'
 import { QUERY_DECKS } from '../utils/queries';
-import Auth from '../utils/auth';
 
 const DeckList = () => {
-    const user = Auth.getProfile();
 
-    const userId = user.data._id;
-    console.log(userId);
-
-    const { loading, data } = useQuery(QUERY_DECKS, {
-        variable: { userId }
-    });
+    const { loading, data } = useQuery(QUERY_DECKS);
 
     const decks = data?.decks || [];
 

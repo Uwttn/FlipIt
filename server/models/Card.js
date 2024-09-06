@@ -5,7 +5,7 @@ const cardSchema = new Schema({
     type: String,
     required: true,
   },
-  answers: {
+  answer: {
     type: [String],
     required: true,
   }

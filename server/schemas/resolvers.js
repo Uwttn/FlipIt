@@ -9,8 +9,8 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("cards");
     },
-    decks: async () => {
-      return Deck.find().populate("cards");
+    decks: async (parent, args, context) => {
+      return Deck.find({ user: context.user._id }).populate("cards");
     },
     deck: async (parent, { deckId }) => {
       return Deck.findOne({ _id: deckId }).populate("cards");
@@ -52,12 +52,12 @@ const resolvers = {
 
       return { token, user };
     },
-    addDeck: async (parent, { deckName, cardIds }) => {
+    addDeck: async (parent, { deckName, cardIds }, context) => {
       const deck = await Deck.create({
         deckName,
         cards: cardIds,
+        user: context.user._id,
       });
-
       return deck;
     },
     removeDeck: async (parent, { deckId }) => {
@@ -78,10 +78,10 @@ const resolvers = {
         { new: true }
       );
     },
-    addCard: async (parent, { question, answers }) => {
+    addCard: async (parent, { question, answer }) => {
       const card = await Card.create({
         question,
-        answers,
+        answer,
       });
 
       return card;
@@ -93,10 +93,10 @@ const resolvers = {
 
       return card;
     },
-    updateCard: async (parent, { cardId, question, answers }) => {
+    updateCard: async (parent, { cardId, question, answer }) => {
       const updateFields = {};
       if (question) updateFields.question = question;
-      if (answers) updateFields.answers = answers;
+      if (answer) updateFields.answer = answer;
 
       return Card.findOneAndUpdate(
         { _id: cardId },

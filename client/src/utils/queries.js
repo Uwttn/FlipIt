@@ -11,8 +11,8 @@ export const QUERY_USER = gql`
 `;
 
 export const QUERY_DECKS = gql`
-  query getDecksByUser($userId: ID!) {
-    decks(userId: $userId) {
+  query getDecks {
+    decks {
       _id
       deckName
     }
@@ -24,7 +24,7 @@ export const QUERY_CARDS = gql`
     cards {
       _id
       question
-      answers
+      answer
     }
   }
 `;
@@ -34,7 +34,7 @@ export const QUERY_SINGLE_CARD = gql`
     card(cardId: $cardId) {
       _id
       question
-      answers
+      answer
     }
   }
 `;

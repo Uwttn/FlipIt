@@ -27,15 +27,15 @@ export const ADD_USER = gql`
 export const ADD_CARD = gql`
   mutation addCard(
     $question: String!
-    $answers: [String]!
+    $answer: [String]!
   ) {
     addCard(
       question: $question
-      answers: $answers
+      answer: $answer
     ) {
       _id
       question
-      answers
+      answer
     }
   }
 `;
@@ -97,16 +97,16 @@ export const UPDATE_CARD = gql`
   mutation updateCard(
     $cardId: ID!
     $question: String
-    $answers: [String]
+    $answer: [String]
   ) {
     updateCard(
       cardId: $cardId
       question: $question
-      answers: $answers
+      answer: $answer
     ) {
       _id
       question
-      answers
+      answer
     }
   }
 `;
