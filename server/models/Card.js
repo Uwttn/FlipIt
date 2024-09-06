@@ -4,7 +4,7 @@ const dateFormat = require("../utils/dateFormat");
 const cardSchema = new Schema({
   cardName: {
     type: String,
-    required: true,
+    required: false,
   },
   question: {
     type: String,
