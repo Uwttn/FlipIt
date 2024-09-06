@@ -14,8 +14,13 @@ import {
 } from '@chakra-ui/react';
 import { useDisclosure } from '@chakra-ui/react';
 import { AddIcon } from '@chakra-ui/icons';
+import { useMutation } from '@apollo/client';
+import { ADD_CARD } from '../../utils/mutations';
 
 export default function ModalForm() {
+
+  const [addCard, {error, data}] = useMutation(ADD_CARD);
+
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // State for Deck Name
@@ -52,12 +57,21 @@ export default function ModalForm() {
   };
 
   // Handle Save (collect all deck info)
-  const handleSave = () => {
+  const handleSave = async () =>  {
     if (deckName) {
       
       console.log('Deck Name:', deckName);
       console.log('Flashcards:', flashcards);
 
+      const variable = {
+        question: flashcards[0].front,
+        answers: flashcards.map(card => card.back)
+      }
+      console.log(variable);
+      const {data} = await addCard({variables:variable})
+      console.log(data)
+
+      //console.log(variable)
       // Close the modal after saving
       onClose();
     } else {

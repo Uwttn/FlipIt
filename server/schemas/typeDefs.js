@@ -37,11 +37,11 @@ const typeDefs = `
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     addDeck(deckName: String!, cardIds: [ID]!): Deck
-    updateDeck(deckId: ID!, deckName: String, cardIds: [ID]): Deck
-    removeDeck(deckId: ID!): Deck
-    addCard(cardId: ID!, question: String!, answers: [String]!): Card
-    updateCard(cardId: ID!, question: String, answers: [String]): Card
-    removeCard(cardId: ID!): Card
+    updateDeck(_id: ID!, deckName: String, cardIds: [ID]): Deck
+    removeDeck(_id: ID!): Deck
+    addCard(_id: ID, question: String!, answers: [String]!): Card
+    updateCard(_id: ID!, question: String, answers: [String]): Card
+    removeCard(_id: ID!): Card
   }
 `;
 
