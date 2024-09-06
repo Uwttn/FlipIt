@@ -78,9 +78,8 @@ const resolvers = {
         { new: true }
       );
     },
-    addCard: async (parent, { cardName, question, answers }) => {
+    addCard: async (parent, { question, answers }) => {
       const card = await Card.create({
-        cardName,
         question,
         answers,
       });
@@ -94,9 +93,8 @@ const resolvers = {
 
       return card;
     },
-    updateCard: async (parent, { cardId, cardName, question, answers }) => {
+    updateCard: async (parent, { cardId, question, answers }) => {
       const updateFields = {};
-      if (cardName) updateFields.cardName = cardName;
       if (question) updateFields.question = question;
       if (answers) updateFields.answers = answers;
 

@@ -26,17 +26,14 @@ export const ADD_USER = gql`
 
 export const ADD_CARD = gql`
   mutation addCard(
-    $cardName: String!
     $question: String!
     $answers: [String]!
   ) {
     addCard(
-      cardName: $cardName
       question: $question
       answers: $answers
     ) {
       _id
-      cardName
       question
       answers
     }
@@ -99,21 +96,15 @@ export const UPDATE_COMMENT = gql`
 export const UPDATE_CARD = gql`
   mutation updateCard(
     $cardId: ID!
-    $cardName: String
-    $type: String
     $question: String
     $answers: [String]
   ) {
     updateCard(
       cardId: $cardId
-      cardName: $cardName
-      type: $type
       question: $question
       answers: $answers
     ) {
       _id
-      cardName
-      type
       question
       answers
     }
