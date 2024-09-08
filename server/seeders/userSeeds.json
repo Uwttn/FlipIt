@@ -48,5 +48,10 @@
     "username": "Jaskier",
     "email": "jaskier@witchersguild.dev",
     "password": "rootroot"
+  },
+  {
+    "username": "Will",
+    "email": "will@dev.com",
+    "password": "rootroot"
   }
 ]

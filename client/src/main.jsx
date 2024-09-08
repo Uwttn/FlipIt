@@ -10,6 +10,7 @@ import Profile from "./pages/Profile";
 import ErrorPage from "./pages/ErrorPage";
 import MyDecks from "./pages/MyDecks.jsx"
 import DeckSelect from "./pages/DeckSelect.jsx";
+import StudyMode from "./pages/StudyMode.jsx";
 
 const router = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/study",
         element: <DeckSelect />,
+      },
+      {
+        path: "/study/:deckId",
+        element: <StudyMode />,
       },
     ],
   },
