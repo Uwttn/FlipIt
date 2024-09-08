@@ -47,6 +47,8 @@ query me {
       deckName
       cards {
         _id
+        question
+        answer
       }
     }
   }

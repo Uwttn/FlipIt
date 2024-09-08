@@ -10,13 +10,14 @@ const resolvers = {
       return User.findOne({ username }).populate("decks");
     },
     decks: async (parent, args, context) => {
-      return Deck.find({ user: context.user._id }).populate("cards");
+      return Deck.find({ user: context.user._id }).populate("deck");
     },
     deck: async (parent, { deckId }) => {
       return Deck.findOne({ _id: deckId }).populate("cards");
     },
-    cards: async () => {
-      return Card.find().sort({ name: 1 });
+    cards: async (parent, { username }) => {
+      const params = username ? { username } : {};
+      return Card.find(params).populate("card");
     },
     card: async (parent, { cardId }) => {
       return Card.findOne({ _id: cardId });
