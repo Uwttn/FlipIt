@@ -30,7 +30,6 @@ db.once("open", async () => {
       deck.cards.push(card._id);
       await deck.save();
     }
-    
  
   } catch (err) {
     console.error(err);

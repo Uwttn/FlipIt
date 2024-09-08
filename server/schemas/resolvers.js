@@ -9,15 +9,15 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("decks");
     },
-    decks: async (parent, args, context) => {
-      return Deck.find({ user: context.user._id }).populate("deck");
+    decks: async (parent, { username }) => {
+      const params = username ? { username } : {};
+      return Deck.find(params).populate("cards");
     },
     deck: async (parent, { deckId }) => {
       return Deck.findOne({ _id: deckId }).populate("cards");
     },
-    cards: async (parent, { username }) => {
-      const params = username ? { username } : {};
-      return Card.find(params).populate("card");
+    cards: async () => {
+      return Card.find();
     },
     card: async (parent, { cardId }) => {
       return Card.findOne({ _id: cardId });

@@ -53,7 +53,7 @@ export const UPDATE_CARD = gql`
   mutation updateCard(
     $cardId: ID!
     $question: String
-    $answer: [String]
+    $answer: String
   ) {
     updateCard(
       cardId: $cardId
