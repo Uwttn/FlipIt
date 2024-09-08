@@ -9,8 +9,8 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate("decks");
     },
-    decks: async (parent, args, context) => {
-      return Deck.find({ user: context.user._id }).populate("cards");
+    decks: async (parent, { userId }) => {
+      return Deck.find({ user: userId }).populate("cards");
     },
     deck: async (parent, { deckId }) => {
       return Deck.findOne({ _id: deckId }).populate("cards");
@@ -23,7 +23,7 @@ const resolvers = {
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findById( context.user._id ).populate("decks");
+        return User.findById(context.user._id).populate("decks");
       }
       throw AuthenticationError("Not authenticated");
     },
@@ -60,9 +60,9 @@ const resolvers = {
         user: context.user._id,
       });
       const updateUser = await User.findOneAndUpdate(
-        {_id: context.user._id},
-        {$push: {decks: deck}},
-        {new: true},
+        { _id: context.user._id },
+        { $push: { decks: deck } },
+        { new: true }
       ).populate("decks");
       return updateUser;
     },

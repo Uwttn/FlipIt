@@ -24,7 +24,7 @@ const typeDefs = `
   type Query {
     users: [User]
     user(username: String!): User
-    decks: [Deck]
+    decks(userId: ID!): [Deck]
     deck(deckId: ID!): Deck
     cards(username: String): [Card]
     card(cardId: ID!): Card
