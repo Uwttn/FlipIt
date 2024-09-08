@@ -38,5 +38,25 @@
   {
     "question": "What is the signature move of the Fire-type Pokémon, Blaziken?",
     "answers": "Blaze Kick"
+  },
+  {
+    "question": "Question #1",
+    "answers": "Answer #1"
+  },
+  {
+    "question": "Question #2",
+    "answers": "Answer #2"
+  },
+  {
+    "question": "Question #3",
+    "answers": "Answer #3"
+  },
+  {
+    "question": "Question #4",
+    "answers": "Answer #4"
+  },
+  {
+    "question": "Question #5",
+    "answers": "Answer #5"
   }
 ]
