@@ -10,7 +10,7 @@ const resolvers = {
       return User.findOne({ username }).populate("decks");
     },
     decks: async (parent, { userId }) => {
-      return Deck.find({ user: userId }).populate("cards");
+      return Deck.find({ user: userId });
     },
     deck: async (parent, { deckId }) => {
       return Deck.findOne({ _id: deckId }).populate("cards");

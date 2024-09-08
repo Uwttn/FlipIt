@@ -1,42 +1,17 @@
 [
   {
-    "question": "Which Pokémon is known for being the 'electric mouse'?",
-    "answers": "Pikachu"
+    "question": "What is a closure?",
+    "answer": ["A closure is a combination of a function and its lexical environment."],
+    "deck": ""
   },
   {
-    "question": "What item is needed to evolve a Haunter into a Gengar?",
-    "answers": "Trade"
+    "question": "What is event delegation?",
+    "answer": ["Event delegation allows event handling on parent elements rather than each child element."],
+    "deck": ""
   },
   {
-    "question": "Which Pokémon can learn the move 'Surf' despite not being a Water type?",
-    "answers": "Pikachu (with a special event or move tutor)"
-  },
-  {
-    "question": "What is the name of the Legendary Pokémon associated with the moon?",
-    "answers": "Lunala"
-  },
-  {
-    "question": "Which Grass-type Pokémon is the final evolution of the Bulbasaur line?",
-    "answers": "Venusaur"
-  },
-  {
-    "question": "What is the ability of the Pokémon Shedinja that makes it unique?",
-    "answers": "Wonder Guard"
-  },
-  {
-    "question": "Which Pokémon evolves into Gyarados?",
-    "answers": "Magikarp"
-  },
-  {
-    "question": "What is the Psychic/Fairy-type Pokémon introduced in Generation VI?",
-    "answers": "Gardevoir"
-  },
-  {
-    "question": "Which Pokémon is known as the 'Shadow Pokémon' in Pokémon Colosseum?",
-    "answers": "Shadow Lugia"
-  },
-  {
-    "question": "What is the signature move of the Fire-type Pokémon, Blaziken?",
-    "answers": "Blaze Kick"
+    "question": "What is npm?",
+    "answer": ["npm is the package manager for Node.js."],
+    "deck": ""
   }
 ]

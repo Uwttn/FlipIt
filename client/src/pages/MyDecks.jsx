@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 import {
   Card,
   CardHeader,
-  CardBody,
   CardFooter,
   SimpleGrid,
   Heading,
   Button,
-  Text,
 } from "@chakra-ui/react";
 import { QUERY_DECKS } from "../utils/queries";
 import Auth from "../utils/auth";
@@ -30,7 +28,11 @@ const DeckList = () => {
     <div className="deck-list">
       <SimpleGrid spacing={4} templateColumns="repeat(4, 1fr)">
         {decks.map((deck) => (
-          <Link to={`/deck/${deck._id}`} key={deck._id}>
+          <Link
+            to={`/deck/${deck._id}`}
+            state={{ deckName: deck.deckName }}
+            key={deck._id}
+          >
             <Card
               height="250px"
               display="flex"

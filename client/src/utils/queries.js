@@ -20,8 +20,8 @@ export const QUERY_DECKS = gql`
 `;
 
 export const QUERY_CARDS = gql`
-  query getCards {
-    cards {
+  query getCards($deckId: ID!) {
+    cards(deckId: $deckId) {
       _id
       question
       answer
