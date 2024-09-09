@@ -14,8 +14,8 @@ const typeDefs = `
   }
   type Card {
     _id: ID
-    question: String
-    answer: String
+    question: String!
+    answer: String!
   }
   type Auth {
     token: ID!

@@ -1,3 +1,4 @@
+const { select } = require("framer-motion/client");
 const { User, Card, Deck } = require("../models"); // Import Deck model
 const { signToken, AuthenticationError } = require("../utils/auth");
 
@@ -16,11 +17,11 @@ const resolvers = {
     deck: async (parent, { deckId }) => {
       return Deck.findOne({ _id: deckId }).populate("cards");
     },
-    cards: async () => {
-      return Card.find();
+    cards: async (parent, {deck}) => {
+      return Card.find({ deck }).populate("card");
     },
     card: async (parent, { cardId }) => {
-      return Card.findOne({ _id: cardId });
+      return Card.findOne({ _id: cardId }).populate("card");
     },
     me: async (parent, args, context) => {
       if (context.user) {
