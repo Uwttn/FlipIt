@@ -15,6 +15,7 @@ const typeDefs = `
     _id: ID
     question: String!
     answer: String!
+    deck: Deck
   }
   type Auth {
     token: ID!
@@ -23,10 +24,10 @@ const typeDefs = `
   type Query {
     users: [User]
     user(username: String!): User
-    decks: [Deck]
+    decks(userId: ID!): [Deck]
     deck(deckId: ID!): Deck
-    cards: [Card]
-    card(cardid: ID!): Card
+    cards(deckId: ID!): [Card]
+    card(cardId: ID!): Card
     me: User
   }
   type Mutation {

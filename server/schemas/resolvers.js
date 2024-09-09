@@ -9,9 +9,9 @@ const resolvers = {
     user: async (parent, { username }) => {
       return User.findOne({ username }).populate({path: "decks", strictPopulate: false});
     },
-    decks: async (parent, { username }) => {
-      const params = username ? { username } : {};
-      return Deck.find(params).populate({path: "cards", strictPopulate: false});
+
+    decks: async (parent, { userId }) => {
+      return Deck.find({ user: userId });
     },
     deck: async (parent, { deckId }) => {
       return Deck.findOne({ _id: deckId }).populate({path: "cards", strictPopulate: false});
@@ -24,7 +24,7 @@ const resolvers = {
     },
     me: async (parent, args, context) => {
       if (context.user) {
-        return User.findById( context.user._id ).populate("decks");
+        return User.findById(context.user._id).populate("decks");
       }
       throw AuthenticationError("Not authenticated");
     },
@@ -61,9 +61,9 @@ const resolvers = {
         user: context.user._id,
       });
       const updateUser = await User.findOneAndUpdate(
-        {_id: context.user._id},
-        {$push: {decks: deck}},
-        {new: true},
+        { _id: context.user._id },
+        { $push: { decks: deck } },
+        { new: true }
       ).populate("decks");
       return updateUser;
     },
@@ -100,13 +100,13 @@ const resolvers = {
 
       return card;
     },
-    updateCard: async (parent, { cardId, question, answer }) => {
+    updateCard: async (parent, { _id, question, answers }) => {
       const updateFields = {};
       if (question) updateFields.question = question;
-      if (answer) updateFields.answer = answer;
+      if (answers) updateFields.answers = answers;
 
       return Card.findOneAndUpdate(
-        { _id: cardId },
+        { _id: _id },
         { $set: updateFields },
         { new: true }
       );

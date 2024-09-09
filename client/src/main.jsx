@@ -8,8 +8,9 @@ import Login from "./pages/Login";
 import SingleCard from "./pages/SingleCard";
 import Profile from "./pages/Profile";
 import ErrorPage from "./pages/ErrorPage";
-import MyDecks from "./pages/MyDecks.jsx"
+import MyDecks from "./pages/MyDecks.jsx";
 import DeckSelect from "./pages/DeckSelect.jsx";
+import CardList from "./pages/CardList.jsx";
 import StudyMode from "./pages/StudyMode.jsx";
 
 const router = createBrowserRouter([
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         path: "/decks",
         element: <MyDecks />,
+      },
+      {
+        path: "/deck/:deckId",
+        element: <CardList />,
       },
       {
         path: "/study",

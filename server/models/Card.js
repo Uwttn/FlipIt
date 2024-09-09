@@ -8,7 +8,11 @@ const cardSchema = new Schema({
   answer: {
     type: String,
     required: true,
-  }
+  },
+  deck: {
+    type: Schema.Types.ObjectId,
+    ref: "Deck",
+  },
 });
 
 const Card = model("Card", cardSchema);

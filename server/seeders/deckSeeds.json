@@ -1,4 +1,12 @@
 [
+  {
+    "deckName": "JavaScript Basics",
+    "cards": []
+  },
+  {
+    "deckName": "Node.js Fundamentals",
+    "cards": []
+  }
     {
       "deckName": "Pokemons",
       "cards": []
