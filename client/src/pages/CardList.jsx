@@ -23,31 +23,33 @@ const CardList = () => {
   const location = useLocation();
   const deckName = location.state?.deckName;
 
+  console.log(deckId);
+
   const { loading, data } = useQuery(QUERY_CARDS, {
     variables: { deckId },
   });
 
-  const cards = data?.cards || [];
+  const cards = data?.deck?.cards || [];
 
   // Local state to track the changes in the card values
-  const [editableCards, setEditableCards] = useState([...cards]);
+  const [editableCards, setEditableCards] = useState([]);
+
+  // Sync cards from query result to local state once data is available
+  React.useEffect(() => {
+    if (data?.deck?.cards) {
+      setEditableCards([...data.deck.cards]); // Sync cards once data is fetched
+    }
+  }, [data]);
 
   // Mutations
   const [updateCard] = useMutation(UPDATE_CARD);
   const [addCard] = useMutation(ADD_CARD);
 
-  // Sync cards from query result to local state once data is available
-  React.useEffect(() => {
-    if (data?.cards) {
-      setEditableCards([...data.cards]); // Set initial editable card state from fetched data
-    }
-  }, [data]);
-
   // Handle card change, but only update local state for now
   const handleCardChange = (e, index, field) => {
     const updatedCards = [...editableCards];
     updatedCards[index] = { ...updatedCards[index], [field]: e.target.value };
-    setEditableCards(updatedCards);
+    setEditableCards(updatedCards); // Update local state
   };
 
   const handleSaveCard = (index) => {
@@ -57,7 +59,9 @@ const CardList = () => {
       variables: {
         _id: cardToUpdate._id,
         question: cardToUpdate.question,
-        answers: cardToUpdate.answer,
+        answers: Array.isArray(cardToUpdate.answer)
+          ? cardToUpdate.answer
+          : [cardToUpdate.answer], // Ensure answers is an array
       },
     });
   };

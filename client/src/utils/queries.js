@@ -21,13 +21,14 @@ export const QUERY_DECKS = gql`
 
 export const QUERY_CARDS = gql`
   query getCards($deckId: ID!) {
-    cards(deckId: $deckId) {
-      _id
-      question
-      answers
-    }
+    deck(deckId: $deckId) {
+      cards {
+        _id
+        question
+        answer
+      }
   }
-`;
+}`;
 
 export const QUERY_SINGLE_CARD = gql`
   query getSingleCard($cardId: ID!) {
