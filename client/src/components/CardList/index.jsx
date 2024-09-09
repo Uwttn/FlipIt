@@ -14,13 +14,15 @@ const CardList = ({ cards }) => {
               {card.cardName}
             </h4>
             <div className="card-body bg-light p-2">
+
               <h5>Type:</h5>
               <p>{card.type}</p>
               <h5>Question:</h5>
               <p>{card.question}</p>
               <h5>Answers:</h5>
+              <p>{card.answer}</p>
               <ul>
-                {card.answers.map((answer, i) => (
+                {card.answer.map((answer, i) => (
                   <li key={answer[i]}>{answer}</li>
                 ))}
               </ul>

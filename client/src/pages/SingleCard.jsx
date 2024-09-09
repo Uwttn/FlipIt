@@ -27,15 +27,12 @@ const SingleCard = () => {
   return (
     <>
       <div className='my-3'>
-        <h4 className='card-header bg-dark text-light p-2 m-0'>
-          {card.cardName}
-        </h4>
         <div className='card-body bg-light p-2'>
           <h5>Question:</h5>
           <p>{card.question}</p>
           <h5>Answer:</h5>
           <ul>
-            {card.answers.map((answer, i) => (
+            {card.answer.map((answer, i) => (
               <li key={i}>{answer}</li>
             ))}
           </ul>

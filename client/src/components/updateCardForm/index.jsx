@@ -9,16 +9,14 @@ const UpdateCardForm = ({
   handleCloseUpdateCardModal,
 }) => {
   const [formState, setFormState] = useState({
-    cardName: initialCardData.cardName,
     question: initialCardData.question,
-    answers: initialCardData.answers,
+    answer: initialCardData.answer,
   });
 
   useEffect(() => {
     setFormState({
-      cardName: initialCardData.cardName,
       question: initialCardData.question,
-      answers: initialCardData.answers,
+      answer: initialCardData.answer,
     });
   }, [initialCardData]);
 
@@ -31,9 +29,8 @@ const UpdateCardForm = ({
     try {
       await updateCard({ variables: { cardId, ...formState } });
       setFormState({
-        cardName: "",
         question: "",
-        answers: [],
+        answer: "",
       });
       handleCloseUpdateCardModal();
     } catch (err) {
@@ -47,36 +44,30 @@ const UpdateCardForm = ({
   };
 
   const handleAnswerChange = (event, index) => {
-    const newAnswers = [...formState.answers];
+    const newAnswers = [...formState.answer];
     newAnswers[index] = event.target.value;
-    setFormState({ ...formState, answers: newAnswers });
+    setFormState({ ...formState, answer: newAnswers });
   };
 
   const handleRemoveAnswer = (index) => {
-    const newAnswers = [...formState.answers];
+    const newAnswers = [...formState.answer];
     newAnswers.splice(index, 1);
-    setFormState({ ...formState, answers: newAnswers });
+    setFormState({ ...formState, answer: newAnswers });
   };
 
   const addAnswer = () => {
-    setFormState({ ...formState, answers: [...formState.answers, ""] });
+    setFormState({ ...formState, answer: [...formState.answer, ""] });
   };
 
   return (
     <form onSubmit={handleFormSubmit}>
-      <input
-        name='cardName'
-        value={formState.cardName}
-        onChange={handleChange}
-        placeholder='Card Name'
-      />
       <input
         name='question'
         value={formState.question}
         onChange={handleChange}
         placeholder='Question'
       />
-      {formState.answers.map((answer, index) => (
+      {formState.answer.map((answer, index) => (
         <div key={index}>
           <input
             value={answer}

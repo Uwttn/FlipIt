@@ -43,17 +43,15 @@ const CardForm = () => {
     if (answerInput.trim() !== "") {
       setFormState({
         ...formState,
-        answers: [...formState.answers, answerInput],
+        answers: [...formState.answer, answerInput],
       });
       setAnswerInput("");
     }
   };
 
   const handleRemoveAnswer = (index) => {
-    const updatedAnswers = formState.answers.filter(
-      (_, idx) => idx !== index
-    );
-    setFormState({ ...formState, answers: updatedAnswers });
+    const updatedAnswers = formState.answer.filter((_, idx) => idx !== index);
+    setFormState({ ...formState, answer: updatedAnswers });
   };
 
   return (
@@ -61,47 +59,38 @@ const CardForm = () => {
       <h3>Add Card?</h3>
 
       <form
-        className='flex-row justify-center justify-space-between-md align-center'
+        className="flex-row justify-center justify-space-between-md align-center"
         onSubmit={handleFormSubmit}
       >
-        <div className='col-12 col-lg-9'>
+        <div className="col-12 col-lg-9">
           <textarea
-            name='cardName'
-            placeholder="Name your card..."
-            value={formState.cardName}
-            className='form-input w-100'
-            style={{ lineHeight: "1.5", resize: "vertical" }}
-            onChange={handleChange}
-          ></textarea>
-      
-          <textarea
-            name='question'
-            placeholder='Question'
+            name="question"
+            placeholder="Question"
             value={formState.question}
-            className='form-input w-100'
+            className="form-input w-100"
             style={{ lineHeight: "1.5", resize: "vertical" }}
             onChange={handleChange}
           ></textarea>
           {/* insert an input for an array of strings */}
           <div>
             <input
-              type='text'
-              placeholder='Enter an answer'
+              type="text"
+              placeholder="Enter an answer"
               value={answerInput}
               onChange={handleAnswerChange}
             />
-            <button type='button' onClick={handleAddAnswer}>
+            <button type="button" onClick={handleAddAnswer}>
               Add Answer
             </button>
           </div>
           <div>
             <h4>Answers:</h4>
             <ul>
-              {formState.answers.map((answer, index) => (
+              {formState.answer.map((answer, index) => (
                 <li key={index}>
                   {answer}
                   <button
-                    type='button'
+                    type="button"
                     onClick={() => handleRemoveAnswer(index)}
                   >
                     Remove
@@ -112,13 +101,13 @@ const CardForm = () => {
           </div>
         </div>
 
-        <div className='col-12 col-lg-3'>
-          <button className='btn btn-primary btn-block py-3' type='submit'>
+        <div className="col-12 col-lg-3">
+          <button className="btn btn-primary btn-block py-3" type="submit">
             Add Card
           </button>
         </div>
         {error && (
-          <div className='col-12 my-3 bg-danger text-white p-3'>
+          <div className="col-12 my-3 bg-danger text-white p-3">
             {error.message}
           </div>
         )}

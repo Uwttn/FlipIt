@@ -34,18 +34,6 @@ export const ADD_CARD = gql`
   }
 `;
 
-export const ADD_COMMENT = gql`
-  mutation addComment($cardId: ID!, $commentText: String!) {
-    addComment(cardId: $cardId, commentText: $commentText) {
-      _id
-      comments {
-        _id
-        commentText
-        createdAt
-      }
-    }
-  }
-`;
 
 export const REMOVE_CARD = gql`
   mutation removeCard($cardId: ID!) {

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Button,
   Modal,
@@ -11,28 +11,27 @@ import {
   FormControl,
   FormLabel,
   Input,
-} from '@chakra-ui/react';
-import { useDisclosure } from '@chakra-ui/react';
-import { AddIcon } from '@chakra-ui/icons';
-import { useMutation } from '@apollo/client';
-import { ADD_CARD } from '../../utils/mutations';
+} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import { useMutation } from "@apollo/client";
+import { ADD_CARD } from "../../utils/mutations";
 
 export default function ModalForm() {
-
-  const [addCard, {error, data}] = useMutation(ADD_CARD);
+  const [addCard] = useMutation(ADD_CARD);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // State for Deck Name
-  const [deckName, setDeckName] = useState('');
+  const [deckName, setDeckName] = useState("");
 
   // State for storing all flashcards
   const [flashcards, setFlashcards] = useState([]);
 
   // State for current flashcard values (front and back)
   const [currentFlashcard, setCurrentFlashcard] = useState({
-    front: '',
-    back: '',
+    front: "",
+    back: "",
   });
 
   // Handle input changes for current flashcard
@@ -47,41 +46,45 @@ export default function ModalForm() {
   // Add current flashcard to the array and reset inputs
   const addFlashcard = () => {
     if (currentFlashcard.front && currentFlashcard.back) {
-      setFlashcards([...flashcards, currentFlashcard]); 
-      setCurrentFlashcard({ front: '', back: '' }); 
+      setFlashcards([...flashcards, currentFlashcard]);
+      setCurrentFlashcard({ front: "", back: "" });
 
-      console.log('Flashcards Array:', flashcards);
+      console.log("Flashcards Array:", flashcards);
     } else {
-      alert('Please fill in both the front and back fields.');
+      alert("Please fill in both the front and back fields.");
     }
   };
 
   // Handle Save (collect all deck info)
-  const handleSave = async () =>  {
+  const handleSave = async () => {
     if (deckName) {
-      
-      console.log('Deck Name:', deckName);
-      console.log('Flashcards:', flashcards);
+      console.log("Deck Name:", deckName);
+      console.log("Flashcards:", flashcards);
 
       const variable = {
         question: flashcards[0].front,
-        answers: flashcards.map(card => card.back)
-      }
+        answers: flashcards.map((card) => card.back),
+      };
       console.log(variable);
-      const {data} = await addCard({variables:variable})
-      console.log(data)
+      const { data } = await addCard({ variables: variable });
+      console.log(data);
 
       //console.log(variable)
       // Close the modal after saving
       onClose();
     } else {
-      alert('Please enter a deck name.');
+      alert("Please enter a deck name.");
     }
   };
 
   return (
     <>
-      <Button onClick={onOpen} rightIcon={<AddIcon />} colorScheme="teal" size="lg">
+      <Button
+        onClick={onOpen}
+        rightIcon={<AddIcon />}
+        colorScheme="teal"
+        size="lg"
+      >
         Create a Deck
       </Button>
 
@@ -123,7 +126,12 @@ export default function ModalForm() {
             </FormControl>
 
             {/* Button to save current flashcard */}
-            <Button onClick={addFlashcard} colorScheme="teal" variant="outline" mb={4}>
+            <Button
+              onClick={addFlashcard}
+              colorScheme="teal"
+              variant="outline"
+              mb={4}
+            >
               Add More
             </Button>
           </ModalBody>
