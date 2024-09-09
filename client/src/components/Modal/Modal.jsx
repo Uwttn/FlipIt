@@ -19,7 +19,7 @@ import { ADD_CARD } from '../../utils/mutations';
 
 export default function ModalForm() {
 
-  const [addCard, {error, data}] = useMutation(ADD_CARD);
+  const [addCard] = useMutation(ADD_CARD);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -65,7 +65,7 @@ export default function ModalForm() {
 
       const variable = {
         question: flashcards[0].front,
-        answers: flashcards.map(card => card.back)
+        answer: flashcards.map(card => card.back)
       }
       console.log(variable);
       const {data} = await addCard({variables:variable})

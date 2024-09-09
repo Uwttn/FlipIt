@@ -7,7 +7,7 @@ import { QUERY_CARDS } from "../../utils/queries";
 const CardForm = () => {
   const [formState, setFormState] = useState({
     question: "",
-    answers: [],
+    answer: "",
   });
   const [answerInput, setAnswerInput] = useState("");
   const [addCard, { error }] = useMutation(ADD_CARD, {
@@ -24,7 +24,7 @@ const CardForm = () => {
       console.log(data);
       setFormState({
         question: "",
-        answers: [],
+        answer: "",
       });
       setAnswerInput("");
     } catch (err) {
@@ -43,17 +43,17 @@ const CardForm = () => {
     if (answerInput.trim() !== "") {
       setFormState({
         ...formState,
-        answers: [...formState.answers, answerInput],
+        answer: [...formState.answer, answerInput],
       });
       setAnswerInput("");
     }
   };
 
   const handleRemoveAnswer = (index) => {
-    const updatedAnswers = formState.answers.filter(
+    const updatedAnswers = formState.answer.filter(
       (_, idx) => idx !== index
     );
-    setFormState({ ...formState, answers: updatedAnswers });
+    setFormState({ ...formState, answer: updatedAnswers });
   };
 
   return (
@@ -65,14 +65,6 @@ const CardForm = () => {
         onSubmit={handleFormSubmit}
       >
         <div className='col-12 col-lg-9'>
-          <textarea
-            name='cardName'
-            placeholder="Name your card..."
-            value={formState.cardName}
-            className='form-input w-100'
-            style={{ lineHeight: "1.5", resize: "vertical" }}
-            onChange={handleChange}
-          ></textarea>
       
           <textarea
             name='question'
@@ -97,7 +89,7 @@ const CardForm = () => {
           <div>
             <h4>Answers:</h4>
             <ul>
-              {formState.answers.map((answer, index) => (
+              {formState.answer.map((answer, index) => (
                 <li key={index}>
                   {answer}
                   <button

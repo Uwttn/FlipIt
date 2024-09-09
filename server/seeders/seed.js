@@ -11,18 +11,18 @@ const seedDatabase = async () => {
     await Deck.deleteMany({});
     await Card.deleteMany({});
 
-    console.log("Seeding Users...");
-    // Create users and store the result (with _id) in an array
-    const users = await User.create(userSeeds);
+//     console.log("Seeding Users...");
+//     // Create users and store the result (with _id) in an array
+//     const users = await User.create(userSeeds);
 
-    console.log("Seeding Decks...");
-    // Loop through deckSeeds and assign user IDs dynamically
-    for (let i = 0; i < deckSeeds.length; i++) {
-      // Assign a user ID from the newly created users array
-      deckSeeds[i].user = users[i % users.length]._id;
-    }
-    // Create decks and store the result (with _id) in an array
-    const decks = await Deck.create(deckSeeds);
+//     console.log("Seeding Decks...");
+//     // Loop through deckSeeds and assign user IDs dynamically
+//     for (let i = 0; i < deckSeeds.length; i++) {
+//       // Assign a user ID from the newly created users array
+//       deckSeeds[i].user = users[i % users.length]._id;
+//     }
+//     // Create decks and store the result (with _id) in an array
+//     const decks = await Deck.create(deckSeeds);
 
     console.log("Seeding Cards...");
     // Loop through cardSeeds and assign deck IDs dynamically
@@ -49,6 +49,23 @@ const seedDatabase = async () => {
 
     console.log("Database seeded successfully!");
     process.exit(0);
+
+    const cards = await Card.create(cardSeeds);
+
+    for (let i = 0; i < decks.length; i++) {
+      const deck = decks[i];
+      const user = users[Math.floor(Math.random() * users.length)];
+      user.decks.push(deck._id);
+      await user.save();
+    }
+
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i];
+      const deck = decks[Math.floor(Math.random() * decks.length)];
+      deck.cards.push(card._id);
+      await deck.save();
+    }
+ 
   } catch (err) {
     console.error(err);
     process.exit(1);
