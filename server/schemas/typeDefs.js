@@ -15,7 +15,7 @@ const typeDefs = `
   type Card {
     _id: ID
     question: String!
-    answer: [String]!
+    answers: [String]!
     deck: Deck
   }
   type Auth {
