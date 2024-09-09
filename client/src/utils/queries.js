@@ -24,7 +24,7 @@ export const QUERY_CARDS = gql`
     cards(deckId: $deckId) {
       _id
       question
-      answer
+      answers
     }
   }
 `;
@@ -34,7 +34,7 @@ export const QUERY_SINGLE_CARD = gql`
     card(cardId: $cardId) {
       _id
       question
-      answer
+      answers
     }
   }
 `;

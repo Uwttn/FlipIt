@@ -5,10 +5,10 @@ const cardSchema = new Schema({
     type: String,
     required: true,
   },
-  answer: {
-    type: [String],
+  answers: [{
+    type: String,
     required: true,
-  },
+  }],
   deck: {
     type: Schema.Types.ObjectId,
     ref: "Deck",
