@@ -8,14 +8,14 @@ const typeDefs = `
   }
   type Deck {
     _id: ID
-    deckName: String!
+    deckName: String
     cards: [Card]
     user: User
   }
   type Card {
     _id: ID
     question: String!
-    answer: [String]!
+    answer: String!
   }
   type Auth {
     token: ID!
@@ -34,10 +34,10 @@ const typeDefs = `
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     addDeck(deckName: String!, cardIds: [ID]!): User
-    updateDeck(_id: ID!, deckName: String, cardIds: [ID]): User
+    updateDeck(_id: ID!, deckName: String!, cardIds: [ID]): User
     removeDeck(_id: ID!): Deck
-    addCard(_id: ID, question: String!, answers: [String]!): Card
-    updateCard(_id: ID!, question: String, answers: [String]): Card
+    addCard(_id: ID, question: String!, answer: String!): Card
+    updateCard(_id: ID!, question: String, answer: String): Card
     removeCard(_id: ID!): Card
   }
 `;

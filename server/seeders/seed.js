@@ -15,16 +15,22 @@ db.once("open", async () => {
 
     const users = await User.create(userSeeds);
     const decks = await Deck.create(deckSeeds);
-    
+    const cards = await Card.create(cardSeeds);
 
-    for (const deck of decks) {
-      const randomUser = users[Math.floor(Math.random() * users.length)];
-      await Deck.findByIdAndUpdate(deck._id, { user: randomUser._id });
-
-      // Optionally, you can push this deck to the user's decks array if you track that in the user schema
+    for (let i = 0; i < decks.length; i++) {
+      const deck = decks[i];
+      const user = users[Math.floor(Math.random() * users.length)];
+      user.decks.push(deck._id);
+      await user.save();
     }
-    
-    await Card.create(cardSeeds);
+
+    for (let i = 0; i < cards.length; i++) {
+      const card = cards[i];
+      const deck = decks[Math.floor(Math.random() * decks.length)];
+      deck.cards.push(card._id);
+      await deck.save();
+    }
+ 
   } catch (err) {
     console.error(err);
     process.exit(1);
