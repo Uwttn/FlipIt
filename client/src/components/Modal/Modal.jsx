@@ -54,20 +54,6 @@ export default function ModalForm() {
 
       console.log("Flashcards Array:", flashcards);
 
-      if (deckName) {
-        console.log("Deck Name:", deckName);
-        console.log("Flashcards:", flashcards);
-        for (let i = 0; i < flashcards.length; i++) {
-          const variable = {
-            question: flashcards[i].front,
-            answers: flashcards[i].back,
-          };
-          console.log(variable);
-          const { data } = await addCard({ variables: variable });
-          console.log(data);
-        }
-        setCurrentFlashcard({ front: "", back: "" });
-      }
     } else {
       alert("Please fill in both the front and back fields.");
     }
@@ -78,9 +64,25 @@ export default function ModalForm() {
     if (deckName) {
       console.log("Deck Name:", deckName);
       console.log("Flashcards:", flashcards);
+
+
+      console.log("Deck Name:", deckName);
+      console.log("Flashcards:", flashcards);
+      for (let i = 0; i < flashcards.length; i++) {
+        const variable = {
+          question: flashcards[i].front,
+          answers: flashcards[i].back,
+        };
+        console.log(variable);
+        const { data } = await addCard({ variables: variable });
+        console.log(data);
+
+        setCurrentFlashcard({ front: "", back: "" });
+      }
       //console.log(variable)
       // Close the modal after saving
       onClose();
+      setFlashcards([]);
     } else {
       alert("Please enter a deck name.");
     }
@@ -141,7 +143,7 @@ export default function ModalForm() {
               variant="outline"
               mb={4}
             >
-              Add More
+              Add
             </Button>
           </ModalBody>
 
