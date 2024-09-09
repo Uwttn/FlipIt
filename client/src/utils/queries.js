@@ -25,7 +25,7 @@ export const QUERY_CARDS = gql`
       cards {
         _id
         question
-        answer
+        answers
       }
   }
 }`;
