@@ -10,7 +10,6 @@ const typeDefs = `
     _id: ID
     deckName: String
     cards: [Card]
-    user: User
   }
   type Card {
     _id: ID
@@ -26,8 +25,8 @@ const typeDefs = `
     user(username: String!): User
     decks: [Deck]
     deck(deckId: ID!): Deck
-    cards(username: String): [Card]
-    card(cardId: ID!): Card
+    cards: [Card]
+    card(cardid: ID!): Card
     me: User
   }
   type Mutation {
