@@ -10,26 +10,13 @@ import {
   Heading,
   Button,
   Text,
-  Box,
 } from "@chakra-ui/react";
 import { QUERY_ME } from "../utils/queries";
-import { keyframes } from "@emotion/react";
+
 import Auth from "../utils/auth";
 import { h2 } from "framer-motion/client";
 
-// Define keyframes for animation
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
-
-const DeckSelect = () => {
+const StudyMode = () => {
   // If there is no `profileId` in the URL as a parameter, execute the `QUERY_ME` query instead for the logged in user's information
   const { loading, data } = useQuery(QUERY_ME);
 
@@ -55,10 +42,8 @@ const DeckSelect = () => {
   }
 
   return (
-    
-    <div className="flex-row justify-center" style={{backgroundColor: "#f7fafc"}}>
-      <h1 style={{display: "flex", justifyContent: "center"}} className="col-12 ">Study Mode</h1>
-      <h4 style={{display: "flex", justifyContent: "center"}} className="col-12 ">Select A Deck</h4>
+    <div>
+      <h1>Hi!</h1>
       {profile.decks?.length > 0 && (
         <div className="deck-list">
           <SimpleGrid spacing={4} templateColumns="repeat(4, 1fr)">
@@ -70,13 +55,12 @@ const DeckSelect = () => {
                   flexDirection="column"
                   justifyContent="center"
                   alignItems="center"
-                  animation={`${fadeIn} 1s ease`}
                 >
                   <CardHeader>
                     <Heading size="md"> {deck.deckName}</Heading>
                   </CardHeader>
                   <CardFooter>
-                    <Button>Let's Study!</Button>
+                    <Button>View here</Button>
                   </CardFooter>
                 </Card>
               </Link>
@@ -88,4 +72,4 @@ const DeckSelect = () => {
   );
 };
 
-export default DeckSelect;
+export default StudyMode;
