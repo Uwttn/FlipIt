@@ -1,17 +1,17 @@
 [
   {
     "question": "What is a closure?",
-    "answer": ["A closure is a combination of a function and its lexical environment."],
+    "answers": ["A closure is a combination of a function and its lexical environment."],
     "deck": ""
   },
   {
     "question": "What is event delegation?",
-    "answer": ["Event delegation allows event handling on parent elements rather than each child element."],
+    "answers": ["Event delegation allows event handling on parent elements rather than each child element."],
     "deck": ""
   },
   {
     "question": "What is npm?",
-    "answer": ["npm is the package manager for Node.js."],
+    "answers": ["npm is the package manager for Node.js."],
     "deck": ""
   }
 ]

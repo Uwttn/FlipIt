@@ -43,7 +43,7 @@ const CardForm = () => {
     if (answerInput.trim() !== "") {
       setFormState({
         ...formState,
-        answers: [...formState.answer, answerInput],
+        answers: [...formState.answers, answerInput],
       });
       setAnswerInput("");
     }
@@ -51,7 +51,7 @@ const CardForm = () => {
 
   const handleRemoveAnswer = (index) => {
     const updatedAnswers = formState.answer.filter((_, idx) => idx !== index);
-    setFormState({ ...formState, answer: updatedAnswers });
+    setFormState({ ...formState, answers: updatedAnswers });
   };
 
   return (

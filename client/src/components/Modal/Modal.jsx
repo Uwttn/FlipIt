@@ -16,9 +16,12 @@ import { useDisclosure } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { useMutation } from "@apollo/client";
 import { ADD_CARD } from "../../utils/mutations";
+import { ADD_DECK } from "../../utils/mutations";
 
 export default function ModalForm() {
   const [addCard] = useMutation(ADD_CARD);
+
+  const [addDeck] = useMutation(ADD_DECK);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -44,12 +47,27 @@ export default function ModalForm() {
   };
 
   // Add current flashcard to the array and reset inputs
-  const addFlashcard = () => {
+  const addFlashcard = async () => {
     if (currentFlashcard.front && currentFlashcard.back) {
       setFlashcards([...flashcards, currentFlashcard]);
       setCurrentFlashcard({ front: "", back: "" });
 
       console.log("Flashcards Array:", flashcards);
+
+      if (deckName) {
+        console.log("Deck Name:", deckName);
+        console.log("Flashcards:", flashcards);
+        for (let i = 0; i < flashcards.length; i++) {
+          const variable = {
+            question: flashcards[i].front,
+            answers: flashcards[i].back,
+          };
+          console.log(variable);
+          const { data } = await addCard({ variables: variable });
+          console.log(data);
+        }
+        setCurrentFlashcard({ front: "", back: "" });
+      }
     } else {
       alert("Please fill in both the front and back fields.");
     }
@@ -60,15 +78,6 @@ export default function ModalForm() {
     if (deckName) {
       console.log("Deck Name:", deckName);
       console.log("Flashcards:", flashcards);
-
-      const variable = {
-        question: flashcards[0].front,
-        answers: flashcards.map((card) => card.back),
-      };
-      console.log(variable);
-      const { data } = await addCard({ variables: variable });
-      console.log(data);
-
       //console.log(variable)
       // Close the modal after saving
       onClose();

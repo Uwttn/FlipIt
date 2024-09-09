@@ -88,13 +88,20 @@ const resolvers = {
         { new: true }
       );
     },
-    addCard: async (parent, { question, answer }) => {
+    addCard: async (parent, { question, answers }) => {
       const card = await Card.create({
         question,
-        answer,
+        answers,
+       //deck: deck._id,
       });
-
       return card;
+      /**const updateDeck = await User.findOneAndUpdate(
+        {_id: deck._id },
+        { $push: {cards: card} },
+        { new: true },
+      ).populate("cards")
+      return updateDeck;*/
+      
     },
     removeCard: async (parent, { cardId }) => {
       const card = await Card.findOneAndDelete({

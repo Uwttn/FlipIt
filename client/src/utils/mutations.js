@@ -25,11 +25,11 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_CARD = gql`
-  mutation addCard($question: String!, $answer: [String]!) {
-    addCard(question: $question, answer: $answer) {
+  mutation addCard($question: String!, $answers: [String]! ) {
+    addCard(question: $question, answers: $answers) {
       _id
       question
-      answer
+      answers
     }
   }
 `;
@@ -80,3 +80,14 @@ export const UPDATE_CARD = gql`
     }
   }
 `;
+
+export const ADD_DECK = gql`
+  mutation addDeck($deckName: String, $cardID: [ID!], $userID: ID!) {
+    addDeck(deckName: $deckName, cardID: $cardID, userID: $userID ) {
+      _id
+      deckName
+      cardID
+      userID
+    }
+  }
+`
