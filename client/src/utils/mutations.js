@@ -25,14 +25,8 @@ export const ADD_USER = gql`
 `;
 
 export const ADD_CARD = gql`
-  mutation addCard(
-    $question: String!
-    $answer: [String]!
-  ) {
-    addCard(
-      question: $question
-      answer: $answer
-    ) {
+  mutation addCard($question: String!, $answer: [String]!) {
+    addCard(question: $question, answer: $answer) {
       _id
       question
       answer
@@ -74,11 +68,7 @@ export const REMOVE_COMMENT = gql`
 `;
 
 export const UPDATE_COMMENT = gql`
-  mutation updateComment(
-    $cardId: ID!
-    $commentId: ID!
-    $commentText: String!
-  ) {
+  mutation updateComment($cardId: ID!, $commentId: ID!, $commentText: String!) {
     updateComment(
       cardId: $cardId
       commentId: $commentId
@@ -94,19 +84,11 @@ export const UPDATE_COMMENT = gql`
 `;
 
 export const UPDATE_CARD = gql`
-  mutation updateCard(
-    $cardId: ID!
-    $question: String
-    $answer: [String]
-  ) {
-    updateCard(
-      cardId: $cardId
-      question: $question
-      answer: $answer
-    ) {
+  mutation updateCard($_id: ID!, $question: String, $answers: [String]) {
+    updateCard(cardId: $_id, question: $question, answers: $answers) {
       _id
       question
-      answer
+      answers
     }
   }
 `;

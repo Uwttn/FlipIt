@@ -23,49 +23,49 @@ const CardList = () => {
   const location = useLocation();
   const deckName = location.state?.deckName;
 
-  const [newCard, setNewCard] = useState({ question: "", answer: "" });
   const { loading, data } = useQuery(QUERY_CARDS, {
     variables: { deckId },
   });
 
   const cards = data?.cards || [];
 
-  console.log(data);
+  // Local state to track the changes in the card values
+  const [editableCards, setEditableCards] = useState([...cards]);
+
+  // Mutations
   const [updateCard] = useMutation(UPDATE_CARD);
   const [addCard] = useMutation(ADD_CARD);
 
-  // Handle input change for editing existing cards
-  const handleCardChange = (e, index, field) => {
-    const updatedCards = [...cards];
-    updatedCards[index] = { ...updatedCards[index], [field]: e.target.value };
-    // Save updated question or answer
-    updateCard({
-      variables: { cardId: updatedCards[index]._id, ...updatedCards[index] },
-    });
-  };
-
-  // Handle input change for adding new card
-  const handleNewCardChange = (e) => {
-    const { name, value } = e.target;
-    setNewCard({ ...newCard, [name]: value });
-  };
-
-  // Handle form submission for adding a new card
-  const handleAddCard = (e) => {
-    e.preventDefault();
-    if (newCard.question && newCard.answer) {
-      addCard({
-        variables: { ...newCard, deckId },
-        refetchQueries: [{ query: QUERY_DECK_BY_ID, variables: { deckId } }],
-      });
-      // Reset new card input fields
-      setNewCard({ question: "", answer: "" });
+  // Sync cards from query result to local state once data is available
+  React.useEffect(() => {
+    if (data?.cards) {
+      setEditableCards([...data.cards]); // Set initial editable card state from fetched data
     }
+  }, [data]);
+
+  // Handle card change, but only update local state for now
+  const handleCardChange = (e, index, field) => {
+    const updatedCards = [...editableCards];
+    updatedCards[index] = { ...updatedCards[index], [field]: e.target.value };
+    setEditableCards(updatedCards);
+  };
+
+  const handleSaveCard = (index) => {
+    const cardToUpdate = editableCards[index];
+    console.log(cardToUpdate);
+    updateCard({
+      variables: {
+        _id: cardToUpdate._id,
+        question: cardToUpdate.question,
+        answers: cardToUpdate.answer,
+      },
+    });
   };
 
   if (loading) {
     return <div>Loading...</div>;
   }
+
   return (
     <Box maxWidth="800px" mx="auto" p={4}>
       {/* Deck Title */}
@@ -75,7 +75,7 @@ const CardList = () => {
 
       {/* Card List */}
       <SimpleGrid columns={[1, 1]} spacing={4} mb={6}>
-        {cards.map((card, index) => (
+        {editableCards.map((card, index) => (
           <Card key={card._id}>
             <CardHeader>
               <Heading size="md">Card {index + 1}</Heading>
@@ -97,39 +97,17 @@ const CardList = () => {
               </FormControl>
             </CardBody>
             <CardFooter>
-              <Button colorScheme="red">Delete</Button>
+              {/* Save Button */}
+              <Button colorScheme="blue" onClick={() => handleSaveCard(index)}>
+                Save
+              </Button>
+              <Button colorScheme="red" ml={3}>
+                Delete
+              </Button>
             </CardFooter>
           </Card>
         ))}
       </SimpleGrid>
-
-      {/* Add New Card */}
-      <Box as="form" onSubmit={handleAddCard} mb={6}>
-        <Heading as="h2" size="md" mb={4}>
-          Add New Card
-        </Heading>
-        <FormControl mb={4}>
-          <FormLabel>Question</FormLabel>
-          <Input
-            name="question"
-            value={newCard.question}
-            onChange={handleNewCardChange}
-            placeholder="Enter question"
-          />
-        </FormControl>
-        <FormControl mb={4}>
-          <FormLabel>Answer</FormLabel>
-          <Input
-            name="answer"
-            value={newCard.answer}
-            onChange={handleNewCardChange}
-            placeholder="Enter answer"
-          />
-        </FormControl>
-        <Button type="submit" colorScheme="blue">
-          Add Card
-        </Button>
-      </Box>
     </Box>
   );
 };

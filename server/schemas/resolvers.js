@@ -99,13 +99,13 @@ const resolvers = {
 
       return card;
     },
-    updateCard: async (parent, { cardId, question, answer }) => {
+    updateCard: async (parent, { _id, question, answers }) => {
       const updateFields = {};
       if (question) updateFields.question = question;
-      if (answer) updateFields.answer = answer;
+      if (answers) updateFields.answers = answers;
 
       return Card.findOneAndUpdate(
-        { _id: cardId },
+        { _id: _id },
         { $set: updateFields },
         { new: true }
       );
