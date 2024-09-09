@@ -1,5 +1,6 @@
 import Auth from "../../utils/auth";
 import { Link } from '@chakra-ui/react'
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const logout = (event) => {
@@ -26,7 +27,7 @@ const Header = () => {
               <Link className='header-link' href='/study'>
                 Study Mode
               </Link>
-              <button className='' onClick={logout}>
+              <button className='header-link' onClick={logout}>
                 Logout
               </button>
             </>
