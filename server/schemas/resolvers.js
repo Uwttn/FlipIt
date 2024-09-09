@@ -1,27 +1,26 @@
-const { select } = require("framer-motion/client");
 const { User, Card, Deck } = require("../models"); // Import Deck model
 const { signToken, AuthenticationError } = require("../utils/auth");
 
 const resolvers = {
   Query: {
     users: async () => {
-      return User.find().populate("decks");
+      return User.find().populate({path: "decks", strictPopulate: false});
     },
     user: async (parent, { username }) => {
-      return User.findOne({ username }).populate("decks");
+      return User.findOne({ username }).populate({path: "decks", strictPopulate: false});
     },
     decks: async (parent, { username }) => {
       const params = username ? { username } : {};
-      return Deck.find(params).populate("cards");
+      return Deck.find(params).populate({path: "cards", strictPopulate: false});
     },
     deck: async (parent, { deckId }) => {
-      return Deck.findOne({ _id: deckId }).populate("cards");
+      return Deck.findOne({ _id: deckId }).populate({path: "cards", strictPopulate: false});
     },
     cards: async (parent, {deck}) => {
-      return Card.find({ deck }).populate("card");
+      return Card.find({ deck }).populate({path: "card", strictPopulate: false});
     },
     card: async (parent, { cardId }) => {
-      return Card.findOne({ _id: cardId }).populate("card");
+      return Card.findOne({ _id: cardId }).populate({path: "card", strictPopulate: false});
     },
     me: async (parent, args, context) => {
       if (context.user) {
