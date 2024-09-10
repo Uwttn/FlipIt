@@ -18,7 +18,7 @@ const Header = () => {
         <div className="menu">
           {Auth.loggedIn() ? (
             <>
-              <Link className="header-link" href="/">
+              <Link className="header-link" href="/welcome">
                 Create Deck
               </Link>
               <Link className="header-link" href="/decks">
