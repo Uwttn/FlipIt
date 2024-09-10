@@ -36,9 +36,6 @@ const Header = () => {
               <Link className="header-link" href="/">
                 Create Deck
               </Link>
-              <Link className="header-link" href="/decks">
-                My Decks
-              </Link>
               <Link className="header-link" href="/study">
                 Study Mode
               </Link>
