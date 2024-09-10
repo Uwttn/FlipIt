@@ -62,6 +62,8 @@ export default function ModalForm() {
   // Handle Save (collect all deck info)
   const handleSave = async () => {
     if (deckName) {
+      const {deck} = await addDeck({variables: deckName})
+      console.log(deck)
       console.log("Deck Name:", deckName);
       console.log("Flashcards:", flashcards);
 

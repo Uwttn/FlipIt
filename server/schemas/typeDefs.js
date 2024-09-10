@@ -37,7 +37,7 @@ const typeDefs = `
     addDeck(user: ID!, deckName: String!, cardIds: [ID]): Deck
     updateDeck(_id: ID!, deckName: String, cardIds: [ID], user: ID): Deck
     removeDeck(_id: ID!): Deck
-    addCard(_id: ID, question: String!, answers: [String]!): Card
+    addCard(_id: ID, question: String!, answers: [String]!): Deck
     updateCard(_id: ID!, question: String, answers: [String]): Card
     removeCard(_id: ID!): Card
   }
