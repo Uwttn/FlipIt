@@ -16,7 +16,7 @@ const seedDatabase = async () => {
     // Loop through deckSeeds and assign user IDs dynamically
     for (let i = 0; i < deckSeeds.length; i++) {
       // Assign a user ID from the newly created users array
-      deckSeeds[i].user = users[i % .length]._id;
+      deckSeeds[i].user = users[i % users.length]._id;
     }
     // Create decks and store the result (with _id) in an array
     const decks = await Deck.create(deckSeeds);
