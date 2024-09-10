@@ -1,23 +1,17 @@
-import { Navigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Card,
   CardHeader,
-  CardBody,
   CardFooter,
   SimpleGrid,
   Heading,
   Button,
-  Text,
-  Box,
 } from "@chakra-ui/react";
 import { QUERY_ME } from "../utils/queries";
 import { keyframes } from "@emotion/react";
-import Auth from "../utils/auth";
-import { h2 } from "framer-motion/client";
 
-// Define keyframes for animation
+  // Define keyframes for animation
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -63,7 +57,6 @@ const DeckSelect = () => {
         <div className="deck-list">
           <SimpleGrid spacing={4} templateColumns="repeat(4, 1fr)">
             {profile.decks.map((deck) => (
-              <Link to={`/deck/${deck._id}`} key={deck._id}>
                 <Card
                   height="250px"
                   display="flex"
@@ -71,15 +64,15 @@ const DeckSelect = () => {
                   justifyContent="center"
                   alignItems="center"
                   animation={`${fadeIn} 1s ease`}
+                  key={deck._id}
                 >
                   <CardHeader>
                     <Heading size="md"> {deck.deckName}</Heading>
                   </CardHeader>
                   <CardFooter>
-                    <Button>Let's Study!</Button>
+                    <Button as={Link} to={`/study/${deck._id}`}>Let's Study!</Button>
                   </CardFooter>
                 </Card>
-              </Link>
             ))}
           </SimpleGrid>
         </div>

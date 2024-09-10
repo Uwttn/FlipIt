@@ -1,75 +1,109 @@
-import { Navigate } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import { Link } from 'react-router-dom';
+import { useParams, useLocation } from "react-router-dom";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
 import {
+  Box,
+  Heading,
+  Text,
+  Button,
+  SimpleGrid,
+  Input,
+  FormControl,
+  FormLabel,
   Card,
   CardHeader,
   CardBody,
   CardFooter,
-  SimpleGrid,
-  Heading,
-  Button,
-  Text,
 } from "@chakra-ui/react";
-import { QUERY_ME } from "../utils/queries";
+import { QUERY_CARDS } from "../utils/queries";
 
-import Auth from "../utils/auth";
-import { h2 } from "framer-motion/client";
+const FlashCards = () => {
+  const { deckId } = useParams();
+  const location = useLocation();
+  const deckName = location.state?.deckName;
 
-const StudyMode = () => {
-  // If there is no `profileId` in the URL as a parameter, execute the `QUERY_ME` query instead for the logged in user's information
-  const { loading, data } = useQuery(QUERY_ME);
+  console.log(deckId);
 
-  // Check if data is returning from the `QUERY_ME` query, then the `QUERY_SINGLE_PROFILE` query
-  const profile = data?.me || {};
-  console.log(profile.decks);
-  // Use React Router's `<Redirect />` component to redirect to personal profile page if username is yours
-  // if (Auth.loggedIn()) {
-  //   return <Navigate to="/study" />;
-  // }
+  const { loading, data } = useQuery(QUERY_CARDS, {
+    variables: { deckId },
+  });
+
+  const cards = data?.deck?.cards || [];
+  const [flashCard, setFlashCard] = useState(null);
+
+  const randomCard = () => {
+    const randomIndex = Math.floor(Math.random() * cards.length);
+    setFlashCard(cards[randomIndex]);
+    console.log(cards[randomIndex]);
+  };
+
+  useEffect(() => {
+    if (cards.length > 0) {
+      randomCard();
+    }
+  }, [data, cards]);
+
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!profile) {
-    return (
-      <h4>
-        You need to be logged in to study! Use the navigation links above to
-        sign up or log in!
-      </h4>
-    );
+  if (!flashCard) {
+    return <div>No flash card available.</div>;
   }
 
   return (
-    <div>
-      <h1>Hi!</h1>
-      {profile.decks?.length > 0 && (
-        <div className="deck-list">
-          <SimpleGrid spacing={4} templateColumns="repeat(4, 1fr)">
-            {profile.decks.map((deck) => (
-              <Link to={`/deck/${deck._id}`} key={deck._id}>
-                <Card
-                  height="250px"
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <CardHeader>
-                    <Heading size="md"> {deck.deckName}</Heading>
-                  </CardHeader>
-                  <CardFooter>
-                    <Button>View here</Button>
-                  </CardFooter>
-                </Card>
-              </Link>
-            ))}
-          </SimpleGrid>
-        </div>
-      )}
+    <div
+      className="flex-row justify-center"
+      style={{ backgroundColor: "#f7fafc" }}
+    >
+      <Box maxWidth="800px" mx="auto" p={4}>
+        <h1
+          style={{ display: "flex", justifyContent: "center" }}
+          className="col-12 "
+        >
+          Study Mode
+        </h1>
+        <h4
+          style={{ display: "flex", justifyContent: "center" }}
+          className="col-12 "
+        >
+          Click and hold to flip the card over
+        </h4>
+        <Card width="500px" height="300px">
+          <div className="flip-card">
+            <div className="flip-card-inner">
+              <div className="flip-card-front">
+                <h3>{flashCard.question}</h3>
+              </div>
+              <div className="flip-card-back">
+                <h3>{flashCard.answers}</h3>
+              </div>
+            </div>
+          </div>
+          <div className="flex-row justify-center">
+            <div>
+              <Button
+                width="200px"
+                colorScheme="red"
+                onClick={() => randomCard()}
+              >
+                I know this one!
+              </Button>
+
+              <Button
+                width="200px"
+                colorScheme="green"
+                onClick={() => randomCard()}
+              >
+                Save this for later
+              </Button>
+            </div>
+          </div>
+        </Card>
+      </Box>
     </div>
   );
 };
 
-export default StudyMode;
+export default FlashCards;
