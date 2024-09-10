@@ -8,8 +8,9 @@ import {
   Heading,
   Button,
 } from "@chakra-ui/react";
-import { QUERY_ME } from "../utils/queries";
+import { QUERY_ME, QUERY_DECKS } from "../utils/queries";
 import { keyframes } from "@emotion/react";
+import Auth from "../utils/auth";
 
   // Define keyframes for animation
 const fadeIn = keyframes`
@@ -25,11 +26,16 @@ const fadeIn = keyframes`
 
 const DeckSelect = () => {
   // If there is no `profileId` in the URL as a parameter, execute the `QUERY_ME` query instead for the logged in user's information
-  const { loading, data } = useQuery(QUERY_ME);
+  const user = Auth.getProfile();
+  const userId = user.data._id;
+  const { loading, data } = useQuery(QUERY_DECKS, {
+    variables: { userId: userId },
+  });
 
   // Check if data is returning from the `QUERY_ME` query, then the `QUERY_SINGLE_PROFILE` query
-  const profile = data?.me || {};
-  console.log(profile.decks);
+
+  const decks = data?.decks || [];
+  console.log(decks);
   // Use React Router's `<Redirect />` component to redirect to personal profile page if username is yours
   // if (Auth.loggedIn()) {
   //   return <Navigate to="/study" />;
@@ -39,7 +45,7 @@ const DeckSelect = () => {
     return <div>Loading...</div>;
   }
 
-  if (!profile) {
+  if (!decks) {
     return (
       <h4>
         You need to be logged in to study! Use the navigation links above to
@@ -53,10 +59,10 @@ const DeckSelect = () => {
     <div className="flex-row justify-center" style={{backgroundColor: "#f7fafc"}}>
       <h1 style={{display: "flex", justifyContent: "center"}} className="col-12 ">Study Mode</h1>
       <h4 style={{display: "flex", justifyContent: "center"}} className="col-12 ">Select A Deck</h4>
-      {profile.decks?.length > 0 && (
+      {decks?.length > 0 && (
         <div className="deck-list">
           <SimpleGrid spacing={4} templateColumns="repeat(4, 1fr)">
-            {profile.decks.map((deck) => (
+            {decks.map((deck) => (
                 <Card
                   height="250px"
                   display="flex"
