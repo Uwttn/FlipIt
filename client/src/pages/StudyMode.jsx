@@ -1,72 +1,91 @@
-import { useQuery } from "@apollo/client";
-import { Link } from 'react-router-dom';
+import { useParams, useLocation } from "react-router-dom";
+import { useMutation, useQuery } from "@apollo/client";
+import React, { useEffect, useState } from "react";
 import {
+  Box,
+  Heading,
+  Text,
+  Button,
+  SimpleGrid,
+  Input,
+  FormControl,
+  FormLabel,
   Card,
   CardHeader,
+  CardBody,
   CardFooter,
-  SimpleGrid,
-  Heading,
-  Button,
 } from "@chakra-ui/react";
-import { QUERY_SINGLE_DECK } from "../utils/queries";
-import { keyframes } from "@emotion/react";
+import { QUERY_CARDS } from "../utils/queries";
 
-// Define keyframes for animation
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-`;
+const FlashCards = () => {
+  const { deckId } = useParams();
+  const location = useLocation();
+  const deckName = location.state?.deckName;
 
 
-  // const { loading, data } = useQuery(QUERY_SINGLE_DECK), { variables: { deckId: deckId },};
+  console.log(deckId);
 
-// // Randomly selects a card from the chosen deck, to display in window
-// const randomCard = deck.cards[Math.floor(Math.random() * deck.cards.length)];
+  const { loading, data } = useQuery(QUERY_CARDS, {
+    variables: { deckId },
+  });
 
+  const cards = data?.deck?.cards || [];
+  const [flashCard, setFlashCard] = useState();
+  useEffect(() => {
+    randomCard()
+  }, [data]);
 
-const StudyMode = () => {
+  const randomCard = () => {
+    setFlashCard(cards[(Math.floor(Math.random() * cards.length))])
+  };
 
+  // Local state to track the changes in the card values
+  const [editableCards, setEditableCards] = useState([]);
 
-  // Check if data is returning from the `QUERY_ME` query, then the `QUERY_SINGLE_PROFILE` query
-  const profile = data?.me || {};
-  console.log(profile.decks);
-  // Use React Router's `<Redirect />` component to redirect to personal profile page if username is yours
-  // if (Auth.loggedIn()) {
-  //   return <Navigate to="/study" />;
-  // }
+  // Sync cards from query result to local state once data is available
+  React.useEffect(() => {
+    if (data?.deck?.cards) {
+      setEditableCards([...data.deck.cards]); // Sync cards once data is fetched
+    }
+  }, [data]);
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!profile) {
-    return (
-      <h4>
-        You need to be logged in to study! Use the navigation links above to
-        sign up or log in!
-      </h4>
-    );
-  }
-
   return (
-    <div>
-      <h1>Study Mode: ${deck.deckName}</h1>
-    <div className="flip-card">
-      <div className="flip-card-front">
-        <h2>${randomCard.question}</h2>
-      </div>
-      <div className="flip-card-back">
-        <h2>${randomCard.answers}</h2>
-      </div>
-    </div>
-    </div>
+    <Box maxWidth="800px" mx="auto" p={4}>
+      {/* Deck Title */}
+      <Heading as="h1" mb={6} textAlign="center">
+        {deckName}
+      </Heading>
+
+      {/* Card List */}
+      <SimpleGrid columns={[1, 1]} spacing={4} mb={6}>
+        {flashCard?(
+          <Card>
+            <CardBody>
+                <h2>{flashCard.question}</h2>
+
+                <h2>{flashCard.answers}</h2>
+            </CardBody>
+            <CardFooter>
+              {/* Skip buttons: remove from viewable cards, or save card for future use */}
+              <Button colorScheme="red" ml={3} onClick={randomCard}>
+                I've got this!
+              </Button>
+              
+              <Button colorScheme="green" onClick={() => handleSaveCard(index)}>
+                Save this for later
+              </Button>
+
+            </CardFooter>
+          </Card>
+          
+        ):null}
+      </SimpleGrid>
+    </Box>
   );
 };
 
-export default StudyMode;
+export default FlashCards;
