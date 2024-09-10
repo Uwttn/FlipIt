@@ -36,7 +36,7 @@ export const ADD_CARD = gql`
 
 export const REMOVE_CARD = gql`
   mutation removeCard($cardId: ID!) {
-    removeCard(cardId: $cardId) {
+    removeCard(_id: $cardId) {
       _id
     }
   }

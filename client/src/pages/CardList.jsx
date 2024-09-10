@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import {
   Box,
   Heading,
-  Text,
   Button,
   SimpleGrid,
   Input,
@@ -17,6 +16,7 @@ import {
 } from "@chakra-ui/react";
 import { QUERY_CARDS } from "../utils/queries";
 import { ADD_CARD, UPDATE_CARD } from "../utils/mutations";
+import DeleteCard from "../components/DeleteCard/DeleteCard";
 
 const CardList = () => {
   const { deckId } = useParams();
@@ -123,9 +123,7 @@ const CardList = () => {
               <Button colorScheme="blue" onClick={() => handleSaveCard(index)}>
                 Save
               </Button>
-              <Button colorScheme="red" ml={3}>
-                Delete
-              </Button>
+              <DeleteCard cardId={card._id} deckId={deckId} />
             </CardFooter>
           </Card>
         ))}
