@@ -22,7 +22,6 @@ const FlashCards = () => {
   const location = useLocation();
   const deckName = location.state?.deckName;
 
-
   console.log(deckId);
 
   const { loading, data } = useQuery(QUERY_CARDS, {
@@ -30,61 +29,80 @@ const FlashCards = () => {
   });
 
   const cards = data?.deck?.cards || [];
-  const [flashCard, setFlashCard] = useState();
-  useEffect(() => {
-    randomCard()
-  }, [data]);
+  const [flashCard, setFlashCard] = useState(null);
 
   const randomCard = () => {
-    setFlashCard(cards[(Math.floor(Math.random() * cards.length))])
+    const randomIndex = Math.floor(Math.random() * cards.length);
+    setFlashCard(cards[randomIndex]);
+    console.log(cards[randomIndex]);
   };
 
-  // Local state to track the changes in the card values
-  const [editableCards, setEditableCards] = useState([]);
-
-  // Sync cards from query result to local state once data is available
-  React.useEffect(() => {
-    if (data?.deck?.cards) {
-      setEditableCards([...data.deck.cards]); // Sync cards once data is fetched
+  useEffect(() => {
+    if (cards.length > 0) {
+      randomCard();
     }
-  }, [data]);
+  }, [data, cards]);
+
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
+  if (!flashCard) {
+    return <div>No flash card available.</div>;
+  }
+
   return (
-    <Box maxWidth="800px" mx="auto" p={4}>
-      {/* Deck Title */}
-      <Heading as="h1" mb={6} textAlign="center">
-        {deckName}
-      </Heading>
-
-      {/* Card List */}
-      <SimpleGrid columns={[1, 1]} spacing={4} mb={6}>
-        {flashCard?(
-          <Card>
-            <CardBody>
-                <h2>{flashCard.question}</h2>
-
-                <h2>{flashCard.answers}</h2>
-            </CardBody>
-            <CardFooter>
-              {/* Skip buttons: remove from viewable cards, or save card for future use */}
-              <Button colorScheme="red" ml={3} onClick={randomCard}>
-                I've got this!
+    <div
+      className="flex-row justify-center"
+      style={{ backgroundColor: "#f7fafc" }}
+    >
+      <Box maxWidth="800px" mx="auto" p={4}>
+        <h1
+          style={{ display: "flex", justifyContent: "center" }}
+          className="col-12 "
+        >
+          Study Mode
+        </h1>
+        <h4
+          style={{ display: "flex", justifyContent: "center" }}
+          className="col-12 "
+        >
+          Click and hold to flip the card over
+        </h4>
+        <Card width="500px" height="300px">
+          <div className="flip-card">
+            <div className="flip-card-inner">
+              <div className="flip-card-front">
+                <h3>{flashCard.question}</h3>
+              </div>
+              <div className="flip-card-back">
+                <h3>{flashCard.answers}</h3>
+              </div>
+            </div>
+          </div>
+          <div className="flex-row justify-center">
+            <div>
+              <Button
+                width="200px"
+                colorScheme="red"
+                onClick={() => randomCard()}
+              >
+                I know this one!
               </Button>
-              
-              <Button colorScheme="green" onClick={() => handleSaveCard(index)}>
+
+              <Button
+                width="200px"
+                colorScheme="green"
+                onClick={() => randomCard()}
+              >
                 Save this for later
               </Button>
-
-            </CardFooter>
-          </Card>
-          
-        ):null}
-      </SimpleGrid>
-    </Box>
+            </div>
+          </div>
+        </Card>
+      </Box>
+    </div>
   );
 };
 
