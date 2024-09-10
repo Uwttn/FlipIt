@@ -1,5 +1,9 @@
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
 
 import App from "./App.jsx";
 import LandingPage from "./pages/LandingPage.jsx";
@@ -13,6 +17,8 @@ import MyDecks from "./pages/MyDecks.jsx";
 import DeckSelect from "./pages/DeckSelect.jsx";
 import CardList from "./pages/CardList.jsx";
 import StudyMode from "./pages/StudyMode.jsx";
+import PageNotFound from "./pages/PageNotFound.jsx";
+import PrivateRoute from "./utils/PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +32,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/welcome",
-        element: <Welcome />,
+        element: (
+          <PrivateRoute>
+            <Welcome />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/login",
@@ -50,19 +60,43 @@ const router = createBrowserRouter([
       },
       {
         path: "/decks",
-        element: <MyDecks />,
+        element: (
+          <PrivateRoute>
+            <MyDecks />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/deck/:deckId",
-        element: <CardList />,
+        element: (
+          <PrivateRoute>
+            <CardList />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/study",
-        element: <DeckSelect />,
+        element: (
+          <PrivateRoute>
+            <DeckSelect />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/study/:deckId",
-        element: <StudyMode />,
+        element: (
+          <PrivateRoute>
+            <StudyMode />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "*",
+        element: <Navigate to="/404" />,
+      },
+      {
+        path: "/404",
+        element: <PageNotFound />,
       },
     ],
   },

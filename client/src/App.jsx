@@ -40,15 +40,16 @@ const client = new ApolloClient({
 function App() {
   const location = useLocation();
   const isHomePage = location.pathname === "/";
+  const isNotFoundPage = location.pathname === "/404";
   return (
     <ChakraProvider>
       <ApolloProvider client={client}>
         <div className="flex-column justify-flex-start min-100-vh">
-          {!isHomePage && <Header />}
+          {!isHomePage && !isNotFoundPage && <Header />}
           <div className="container">
             <Outlet />
           </div>
-          {!isHomePage && <Footer />}
+          {!isHomePage && !isNotFoundPage && <Footer />}
         </div>
       </ApolloProvider>
     </ChakraProvider>

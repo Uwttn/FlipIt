@@ -1,14 +1,14 @@
-import Auth from "../../utils/auth";
+import auth from "../../utils/auth";
 import { Link } from "@chakra-ui/react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const Header = () => {
   const logout = (event) => {
     event.preventDefault();
-    Auth.logout();
+    auth.logout();
   };
   return (
-    <header className="main-header flex-row align-center">
+    <header className="main-header flex-row align-center mb-4">
       <div className="container-nav flex-row justify-space-between-lg justify-center align-center">
         <div>
           <Link className="text-light" to="/">
@@ -16,7 +16,7 @@ const Header = () => {
           </Link>
         </div>
         <div className="menu">
-          {Auth.loggedIn() ? (
+          {auth.loggedIn() ? (
             <>
               <Link className="header-link" href="/welcome">
                 Create Deck
@@ -33,12 +33,6 @@ const Header = () => {
             </>
           ) : (
             <>
-              <Link className="header-link" href="/">
-                Create Deck
-              </Link>
-              <Link className="header-link" href="/study">
-                Study Mode
-              </Link>
               <Link className="header-link" href="/login">
                 Login
               </Link>
