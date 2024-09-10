@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import {
   Box,
   Heading,
-  Text,
   Button,
   SimpleGrid,
   Input,
@@ -17,13 +16,12 @@ import {
 } from "@chakra-ui/react";
 import { QUERY_CARDS } from "../utils/queries";
 import { ADD_CARD, UPDATE_CARD } from "../utils/mutations";
+import DeleteCard from "../components/DeleteCard/DeleteCard";
 
 const CardList = () => {
   const { deckId } = useParams();
   const location = useLocation();
   const deckName = location.state?.deckName;
-
-  console.log(deckId);
 
   const { loading, data } = useQuery(QUERY_CARDS, {
     variables: { deckId },
@@ -31,25 +29,24 @@ const CardList = () => {
 
   const cards = data?.deck?.cards || [];
 
-  // Local state to track the changes in the card values
   const [editableCards, setEditableCards] = useState([]);
+  const [newCard, setNewCard] = useState({ question: "", answers: "" });
 
-  // Sync cards from query result to local state once data is available
   React.useEffect(() => {
     if (data?.deck?.cards) {
-      setEditableCards([...data.deck.cards]); // Sync cards once data is fetched
+      setEditableCards([...data.deck.cards]);
     }
   }, [data]);
 
-  // Mutations
   const [updateCard] = useMutation(UPDATE_CARD);
-  const [addCard] = useMutation(ADD_CARD);
+  const [addCard] = useMutation(ADD_CARD, {
+    refetchQueries: [{ query: QUERY_CARDS, variables: { deckId } }],
+  });
 
-  // Handle card change, but only update local state for now
   const handleCardChange = (e, index, field) => {
     const updatedCards = [...editableCards];
     updatedCards[index] = { ...updatedCards[index], [field]: e.target.value };
-    setEditableCards(updatedCards); // Update local state
+    setEditableCards(updatedCards);
   };
 
   const handleSaveCard = (index) => {
@@ -59,11 +56,32 @@ const CardList = () => {
       variables: {
         _id: cardToUpdate._id,
         question: cardToUpdate.question,
-        answers: Array.isArray(cardToUpdate.answer)
-          ? cardToUpdate.answer
-          : [cardToUpdate.answer], // Ensure answers is an array
+        answers: Array.isArray(cardToUpdate.answers)
+          ? cardToUpdate.answers
+          : [cardToUpdate.answers],
       },
     });
+  };
+
+  // Handle input change for new card
+  const handleNewCardChange = (e) => {
+    const { name, value } = e.target;
+    setNewCard({ ...newCard, [name]: value });
+  };
+
+  // Handle form submission for adding a new card
+  const handleAddCard = (e) => {
+    e.preventDefault();
+    if (newCard.question && newCard.answers) {
+      addCard({
+        variables: {
+          deckId,
+          question: newCard.question,
+          answers: [newCard.answers],
+        },
+      });
+      setNewCard({ question: "", answers: "" }); // Reset new card input fields
+    }
   };
 
   if (loading) {
@@ -95,8 +113,8 @@ const CardList = () => {
               <FormControl mb={4}>
                 <FormLabel>Answer</FormLabel>
                 <Input
-                  value={card.answer}
-                  onChange={(e) => handleCardChange(e, index, "answer")}
+                  value={card.answers}
+                  onChange={(e) => handleCardChange(e, index, "answers")}
                 />
               </FormControl>
             </CardBody>
@@ -105,13 +123,39 @@ const CardList = () => {
               <Button colorScheme="blue" onClick={() => handleSaveCard(index)}>
                 Save
               </Button>
-              <Button colorScheme="red" ml={3}>
-                Delete
-              </Button>
+              <DeleteCard cardId={card._id} deckId={deckId} />
             </CardFooter>
           </Card>
         ))}
       </SimpleGrid>
+
+      {/* Add New Card */}
+      <Box as="form" onSubmit={handleAddCard} mb={6}>
+        <Heading as="h2" size="md" mb={4}>
+          Add New Card
+        </Heading>
+        <FormControl mb={4}>
+          <FormLabel>Question</FormLabel>
+          <Input
+            name="question"
+            value={newCard.question}
+            onChange={handleNewCardChange}
+            placeholder="Enter question"
+          />
+        </FormControl>
+        <FormControl mb={4}>
+          <FormLabel>Answer</FormLabel>
+          <Input
+            name="answers"
+            value={newCard.answers}
+            onChange={handleNewCardChange}
+            placeholder="Enter answer"
+          />
+        </FormControl>
+        <Button type="submit" colorScheme="blue">
+          Add Card
+        </Button>
+      </Box>
     </Box>
   );
 };

@@ -25,10 +25,11 @@ export const QUERY_CARDS = gql`
       cards {
         _id
         question
-        answer
+        answers
       }
+    }
   }
-}`;
+`;
 
 export const QUERY_SINGLE_CARD = gql`
   query getSingleCard($cardId: ID!) {

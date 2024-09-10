@@ -92,7 +92,7 @@ const resolvers = {
       const card = await Card.create({
         question,
         answers,
-       //deck: deck._id,
+        //deck: deck._id,
       });
       return card;
       /**const updateDeck = await User.findOneAndUpdate(
@@ -101,11 +101,10 @@ const resolvers = {
         { new: true },
       ).populate("cards")
       return updateDeck;*/
-      
     },
-    removeCard: async (parent, { cardId }) => {
+    removeCard: async (parent, { _id }) => {
       const card = await Card.findOneAndDelete({
-        _id: cardId,
+        _id: _id,
       });
 
       return card;
