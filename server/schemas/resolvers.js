@@ -56,19 +56,20 @@ const resolvers = {
 
       return { token, user };
     },
-    addDeck: async (parent, { deckName, cardIds }, context) => {
-      console.log(context.user._id);
+
+    addDeck: async (parent, {user, deckName, cardIds }, context) => {
+
       const deck = await Deck.create({
-        deckName,
+        deckName: deckName,
         cards: cardIds,
-        user: context.user._id,
+        user: user
       });
+
       const updateUser = await User.findOneAndUpdate(
-        { _id: context.user._id },
+        { _id: user },
         { $push: { decks: deck } },
         { new: true }
-      ).populate("decks");
-      return updateUser;
+      );
     },
     removeDeck: async (parent, { deckId }) => {
       const deck = await Deck.findOneAndDelete({
@@ -92,15 +93,15 @@ const resolvers = {
       const card = await Card.create({
         question,
         answers,
-        //deck: deck._id,
+        deckID: deck._id,
       });
-      return card;
-      /**const updateDeck = await User.findOneAndUpdate(
+      //return card;
+      const updateDeck = await User.findOneAndUpdate(
         {_id: deck._id },
         { $push: {cards: card} },
         { new: true },
       ).populate("cards")
-      return updateDeck;*/
+      return updateDeck;
     },
     removeCard: async (parent, { _id }) => {
       const card = await Card.findOneAndDelete({
