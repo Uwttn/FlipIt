@@ -19,6 +19,20 @@ export const QUERY_DECKS = gql`
   }
 `;
 
+export const QUERY_SINGLE_DECK = gql`
+  query getSingleDeck($userId: ID!) {
+    deck(deckId: $deckId) {
+      _id
+      deckName
+      cards {
+        _id
+        question
+        answers
+      }
+    }
+  }
+`;
+
 export const QUERY_CARDS = gql`
   query getCards($deckId: ID!) {
     deck(deckId: $deckId) {
@@ -27,8 +41,9 @@ export const QUERY_CARDS = gql`
         question
         answers
       }
+    }
   }
-}`;
+`;
 
 export const QUERY_SINGLE_CARD = gql`
   query getSingleCard($cardId: ID!) {

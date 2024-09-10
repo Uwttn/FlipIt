@@ -1,24 +1,37 @@
-import { Navigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { Link } from 'react-router-dom';
 import {
   Card,
   CardHeader,
-  CardBody,
   CardFooter,
   SimpleGrid,
   Heading,
   Button,
-  Text,
 } from "@chakra-ui/react";
-import { QUERY_ME } from "../utils/queries";
+import { QUERY_SINGLE_DECK } from "../utils/queries";
+import { keyframes } from "@emotion/react";
 
-import Auth from "../utils/auth";
-import { h2 } from "framer-motion/client";
+// Define keyframes for animation
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+`;
+
+
+  // const { loading, data } = useQuery(QUERY_SINGLE_DECK), { variables: { deckId: deckId },};
+
+// // Randomly selects a card from the chosen deck, to display in window
+// const randomCard = deck.cards[Math.floor(Math.random() * deck.cards.length)];
+
 
 const StudyMode = () => {
-  // If there is no `profileId` in the URL as a parameter, execute the `QUERY_ME` query instead for the logged in user's information
-  const { loading, data } = useQuery(QUERY_ME);
+
 
   // Check if data is returning from the `QUERY_ME` query, then the `QUERY_SINGLE_PROFILE` query
   const profile = data?.me || {};
@@ -43,31 +56,15 @@ const StudyMode = () => {
 
   return (
     <div>
-      <h1>Hi!</h1>
-      {profile.decks?.length > 0 && (
-        <div className="deck-list">
-          <SimpleGrid spacing={4} templateColumns="repeat(4, 1fr)">
-            {profile.decks.map((deck) => (
-              <Link to={`/deck/${deck._id}`} key={deck._id}>
-                <Card
-                  height="250px"
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <CardHeader>
-                    <Heading size="md"> {deck.deckName}</Heading>
-                  </CardHeader>
-                  <CardFooter>
-                    <Button>View here</Button>
-                  </CardFooter>
-                </Card>
-              </Link>
-            ))}
-          </SimpleGrid>
-        </div>
-      )}
+      <h1>Study Mode: ${deck.deckName}</h1>
+    <div className="flip-card">
+      <div className="flip-card-front">
+        <h2>${randomCard.question}</h2>
+      </div>
+      <div className="flip-card-back">
+        <h2>${randomCard.answers}</h2>
+      </div>
+    </div>
     </div>
   );
 };
