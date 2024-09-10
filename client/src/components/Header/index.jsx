@@ -8,7 +8,7 @@ const Header = () => {
     auth.logout();
   };
   return (
-    <header className="main-header flex-row align-center">
+    <header className="main-header flex-row align-center mb-4">
       <div className="container-nav flex-row justify-space-between-lg justify-center align-center">
         <div>
           <Link className="text-light" to="/">

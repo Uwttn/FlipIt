@@ -1167,6 +1167,7 @@ form [type="radio"] {
   color: #000000;
   border-radius: 0 0 25px 25px;
   border-bottom: 5px solid gray;
+  height: 100px;
 }
 
 label form [type="checkbox"],
@@ -1728,7 +1729,7 @@ label form [type="radio"] {
 }
 
 .logo {
-  height: 100px;
+  height: 85px;
 }
 
 .menu {
