@@ -11,12 +11,14 @@ import {
   FormControl,
   FormLabel,
   Input,
+  useRadio,
 } from "@chakra-ui/react";
 import { useDisclosure } from "@chakra-ui/react";
 import { AddIcon } from "@chakra-ui/icons";
 import { useMutation } from "@apollo/client";
 import { ADD_CARD } from "../../utils/mutations";
 import { ADD_DECK } from "../../utils/mutations";
+import Auth from "../../utils/auth";
 
 export default function ModalForm() {
   const [addCard] = useMutation(ADD_CARD);
@@ -62,14 +64,19 @@ export default function ModalForm() {
   // Handle Save (collect all deck info)
   const handleSave = async () => {
     if (deckName) {
-      const {deck} = await addDeck({variables: deckName})
-      console.log(deck)
-      console.log("Deck Name:", deckName);
-      console.log("Flashcards:", flashcards);
-
 
       console.log("Deck Name:", deckName);
       console.log("Flashcards:", flashcards);
+      console.log(deckName)
+      const user = Auth.getProfile();
+      const userId = user.data._id;
+      console.log(userId);
+
+      console.log("Deck Name:", deckName);
+      console.log("Flashcards:", flashcards);
+
+      let cardId = []
+
       for (let i = 0; i < flashcards.length; i++) {
         const variable = {
           question: flashcards[i].front,
@@ -77,10 +84,23 @@ export default function ModalForm() {
         };
         console.log(variable);
         const { data } = await addCard({ variables: variable });
-        console.log(data);
+        console.log(data.addCard._id);
+        console.log(data)
+        cardId.push(data.addCard._id) 
+
+
 
         setCurrentFlashcard({ front: "", back: "" });
       }
+      console.log(cardId)
+      const {storedDeck} = await addDeck({
+        variables:{
+          user: userId,
+          deckName: deckName,
+          cardIds: cardId
+        }
+      })
+      console.log(storedDeck)
       //console.log(variable)
       // Close the modal after saving
       onClose();
