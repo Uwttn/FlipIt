@@ -56,19 +56,18 @@ const resolvers = {
 
       return { token, user };
     },
-    addDeck: async (parent, { deckName, cardIds }, context) => {
-      console.log(context.user._id);
+    addDeck: async (parent, {user, deckName, cardIds }, context) => {
       const deck = await Deck.create({
-        deckName,
+        deckName: deckName,
         cards: cardIds,
-        user: context.user._id,
+        user: user
       });
+
       const updateUser = await User.findOneAndUpdate(
-        { _id: context.user._id },
+        { _id: user },
         { $push: { decks: deck } },
         { new: true }
-      ).populate("decks");
-      return updateUser;
+      );
     },
     removeDeck: async (parent, { deckId }) => {
       const deck = await Deck.findOneAndDelete({
