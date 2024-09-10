@@ -1,5 +1,5 @@
 import Auth from "../../utils/auth";
-import { Link } from '@chakra-ui/react'
+import { Link } from "@chakra-ui/react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const Header = () => {
@@ -8,44 +8,44 @@ const Header = () => {
     Auth.logout();
   };
   return (
-    <header className='flex-row align-center'>
-      <div className='container-nav flex-row justify-space-between-lg justify-center align-center'>
+    <header className="main-header flex-row align-center">
+      <div className="container-nav flex-row justify-space-between-lg justify-center align-center">
         <div>
-          <Link className='text-light' to='/'>
-          <img className="logo" src="FlipIt Logo.png" alt="FlipIt Logo" />
+          <Link className="text-light" to="/">
+            <img className="logo" src="FlipIt Logo.png" alt="FlipIt Logo" />
           </Link>
         </div>
         <div className="menu">
           {Auth.loggedIn() ? (
             <>
-        <Link className='header-link' href='/'>
+              <Link className="header-link" href="/">
                 Create Deck
               </Link>
-              <Link className='header-link' href='/decks'>
+              <Link className="header-link" href="/decks">
                 My Decks
               </Link>
-              <Link className='header-link' href='/study'>
+              <Link className="header-link" href="/study">
                 Study Mode
               </Link>
-              <button className='header-link' onClick={logout}>
+              <button className="header-link" onClick={logout}>
                 Logout
               </button>
             </>
           ) : (
             <>
-              <Link className='header-link' href='/'>
+              <Link className="header-link" href="/">
                 Create Deck
               </Link>
-              <Link className='header-link' href='/decks'>
+              <Link className="header-link" href="/decks">
                 My Decks
               </Link>
-              <Link className='header-link' href='/study'>
+              <Link className="header-link" href="/study">
                 Study Mode
               </Link>
-              <Link className='header-link' href='/login'>
+              <Link className="header-link" href="/login">
                 Login
               </Link>
-              <Link className='header-link' href='/signup'>
+              <Link className="header-link" href="/signup">
                 Signup
               </Link>
             </>
