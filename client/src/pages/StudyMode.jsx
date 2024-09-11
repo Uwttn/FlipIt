@@ -1,20 +1,7 @@
 import { useParams, useLocation } from "react-router-dom";
 import { useMutation, useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
-import {
-  Box,
-  Heading,
-  Text,
-  Button,
-  SimpleGrid,
-  Input,
-  FormControl,
-  FormLabel,
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-} from "@chakra-ui/react";
+import { Box, Button, Card } from "@chakra-ui/react";
 import { QUERY_CARDS } from "../utils/queries";
 
 const FlashCards = () => {
@@ -43,7 +30,6 @@ const FlashCards = () => {
     }
   }, [data, cards]);
 
-
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -55,7 +41,7 @@ const FlashCards = () => {
   return (
     <div
       className="flex-row justify-center"
-      style={{ backgroundColor: "#f7fafc" }}
+      style={{ backgroundColor: "#f7fafc", height: "468px" }}
     >
       <Box maxWidth="800px" mx="auto" p={4}>
         <h1
@@ -70,7 +56,14 @@ const FlashCards = () => {
         >
           Click and hold to flip the card over
         </h4>
-        <Card width="500px" height="300px">
+        <Card
+          width="600px"
+          height="350px"
+          mx="auto"
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+        >
           <div className="flip-card">
             <div className="flip-card-inner">
               <div className="flip-card-front">
@@ -84,16 +77,19 @@ const FlashCards = () => {
           <div className="flex-row justify-center">
             <div>
               <Button
-                width="200px"
+                width="150px"
                 colorScheme="red"
+                mr="30px"
+                mb="20px"
                 onClick={() => randomCard()}
               >
                 I know this one!
               </Button>
 
               <Button
-                width="200px"
+                width="150px"
                 colorScheme="green"
+                mb="20px"
                 onClick={() => randomCard()}
               >
                 Save this for later

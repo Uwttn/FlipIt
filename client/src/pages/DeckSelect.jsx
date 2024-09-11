@@ -12,7 +12,7 @@ import { QUERY_ME, QUERY_DECKS } from "../utils/queries";
 import { keyframes } from "@emotion/react";
 import Auth from "../utils/auth";
 
-  // Define keyframes for animation
+// Define keyframes for animation
 const fadeIn = keyframes`
   from {
     opacity: 0;
@@ -55,30 +55,44 @@ const DeckSelect = () => {
   }
 
   return (
-    
-    <div className="flex-row justify-center" style={{backgroundColor: "#f7fafc"}}>
-      <h1 style={{display: "flex", justifyContent: "center"}} className="col-12 ">Study Mode</h1>
-      <h4 style={{display: "flex", justifyContent: "center"}} className="col-12 ">Select A Deck</h4>
+    <div
+      className="flex-row justify-center"
+      style={{ backgroundColor: "#f7fafc", minHeight: "100vh" }}
+    >
+      <h1
+        style={{ display: "flex", justifyContent: "center" }}
+        className="col-12 "
+      >
+        Study Mode
+      </h1>
+      <h4
+        style={{ display: "flex", justifyContent: "center" }}
+        className="col-12 "
+      >
+        Select A Deck
+      </h4>
       {decks?.length > 0 && (
         <div className="deck-list">
           <SimpleGrid spacing={4} templateColumns="repeat(4, 1fr)">
             {decks.map((deck) => (
-                <Card
-                  height="250px"
-                  display="flex"
-                  flexDirection="column"
-                  justifyContent="center"
-                  alignItems="center"
-                  animation={`${fadeIn} 1s ease`}
-                  key={deck._id}
-                >
-                  <CardHeader>
-                    <Heading size="md"> {deck.deckName}</Heading>
-                  </CardHeader>
-                  <CardFooter>
-                    <Button as={Link} to={`/study/${deck._id}`}>Let's Study!</Button>
-                  </CardFooter>
-                </Card>
+              <Card
+                height="250px"
+                display="flex"
+                flexDirection="column"
+                justifyContent="center"
+                alignItems="center"
+                animation={`${fadeIn} 1s ease`}
+                key={deck._id}
+              >
+                <CardHeader>
+                  <Heading size="md"> {deck.deckName}</Heading>
+                </CardHeader>
+                <CardFooter>
+                  <Button as={Link} to={`/study/${deck._id}`}>
+                    Let's Study!
+                  </Button>
+                </CardFooter>
+              </Card>
             ))}
           </SimpleGrid>
         </div>
