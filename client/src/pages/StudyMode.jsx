@@ -139,7 +139,8 @@ const FlashCards = () => {
           </div>
           <div className="flex-row justify-center">
             <div>
-              <Button
+              {/* For future development: when this button is clicked, card is removed from visible cards in array, so that it doesn't come up during study */}
+              {/* <Button
                 width="150px"
                 colorScheme="red"
                 mr="30px"
@@ -147,7 +148,7 @@ const FlashCards = () => {
                 onClick={() => handleIKnowThis(flashCard)}
               >
                 I know this one!
-              </Button>
+              </Button> */}
 
               <Button
                 width="150px"
@@ -155,7 +156,7 @@ const FlashCards = () => {
                 mb="20px"
                 onClick={() => handleSave(flashCard)}
               >
-                Save this for later
+                Next Card!
               </Button>
             </div>
           </div>
