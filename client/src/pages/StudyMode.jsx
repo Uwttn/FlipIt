@@ -158,7 +158,7 @@ const FlashCards = () => {
                 mb="20px"
                 onClick={() => handleSave(flashCard)}
               >
-                Next Card!
+                Save for later!
               </Button>
             </div>
           </div>
