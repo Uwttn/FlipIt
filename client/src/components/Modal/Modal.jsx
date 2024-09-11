@@ -170,7 +170,7 @@ export default function ModalForm() {
           </ModalBody>
 
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSave}>
+            <Button backgroundColor="rgb(99,182,195)" mr={3} onClick={handleSave}>
               Save
             </Button>
             <Button onClick={onClose}>Cancel</Button>

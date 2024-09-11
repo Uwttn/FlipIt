@@ -1163,7 +1163,8 @@ form [type="radio"] {
 }
 
 .main-header {
-  background-color: #63b6c3;
+  background: rgb(99,182,195);
+  background: linear-gradient(90deg, rgba(99,182,195,1) 0%, rgba(128,128,128,1) 100%, rgba(99,182,195,1) 100%);
   color: #000000;
   border-radius: 0 0 25px 25px;
   border-bottom: 5px solid gray;
@@ -1730,6 +1731,7 @@ label form [type="radio"] {
 
 .logo {
   height: 85px;
+  border-radius: 10px;
 }
 
 .menu {
@@ -1746,6 +1748,7 @@ label form [type="radio"] {
   border: 1px solid #f1f1f1;
   perspective: 1000px; /* Remove this if you don't want the 3D effect */
   margin-bottom: 30px;
+  margin-top: 10px;
 }
 
 /* This container is needed to position the front and back side */

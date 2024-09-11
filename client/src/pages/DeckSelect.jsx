@@ -88,7 +88,7 @@ const DeckSelect = () => {
                   <Heading size="md"> {deck.deckName}</Heading>
                 </CardHeader>
                 <CardFooter>
-                  <Button as={Link} to={`/study/${deck._id}`}>
+                  <Button backgroundColor="rgb(99,182,195)" as={Link} to={`/study/${deck._id}`}>
                     Let's Study!
                   </Button>
                 </CardFooter>
