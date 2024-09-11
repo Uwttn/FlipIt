@@ -134,7 +134,7 @@ const CardList = () => {
             </CardBody>
             <CardFooter>
               {/* Save Button */}
-              <Button colorScheme="blue" onClick={() => handleSaveCard(index)}>
+              <Button backgroundColor="rgb(99,182,195)" onClick={() => handleSaveCard(index)}>
                 Save
               </Button>
               <DeleteCard cardId={card._id} deckId={deckId} />
@@ -166,7 +166,7 @@ const CardList = () => {
             placeholder="Enter answer"
           />
         </FormControl>
-        <Button type="submit" colorScheme="blue">
+        <Button type="submit" backgroundColor="rgb(99,182,195)">
           Add Card
         </Button>
       </Box>
