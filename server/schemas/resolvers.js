@@ -84,11 +84,21 @@ const resolvers = {
       return deck;
     },
 
-    updateDeck: async (parent, { _id, cards }) => {
+    // updateDeck: async (parent, { _id, cards }) => {
 
+    //   const updateFields = {};
+    //   //if (deckName) updateFields.deckName = deckName;
+    //   if (cards) updateFields.cards = cards;
+
+    //   return Deck.findOneAndUpdate(
+    //     { _id: _id },
+    //     { $set: updateFields },
+    //     { new: true }
+    //   );
+    // },
+    updateDeck: async (parent, { _id, deckName}) => {
       const updateFields = {};
-      //if (deckName) updateFields.deckName = deckName;
-      if (cards) updateFields.cards = cards;
+      if (deckName) updateFields.deckName = deckName;
 
       return Deck.findOneAndUpdate(
         { _id: _id },
