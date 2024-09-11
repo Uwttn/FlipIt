@@ -84,13 +84,14 @@ const resolvers = {
       return deck;
     },
 
-    updateDeck: async (parent, { deckId, deckName, cardIds }) => {
+    updateDeck: async (parent, { _id, cards }) => {
+
       const updateFields = {};
-      if (deckName) updateFields.deckName = deckName;
-      if (cardIds) updateFields.cards = cardIds;
+      //if (deckName) updateFields.deckName = deckName;
+      if (cards) updateFields.cards = cards;
 
       return Deck.findOneAndUpdate(
-        { _id: deckId },
+        { _id: _id },
         { $set: updateFields },
         { new: true }
       );

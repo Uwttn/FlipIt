@@ -82,9 +82,9 @@ export default function ModalForm() {
           question: flashcards[i].front,
           answers: flashcards[i].back,
         };
-        console.log(variable);
+        //console.log(variable);
         const { data } = await addCard({ variables: variable });
-        console.log(data.addCard._id);
+        //console.log(data.addCard._id);
         console.log(data)
         cardId.push(data.addCard._id) 
 

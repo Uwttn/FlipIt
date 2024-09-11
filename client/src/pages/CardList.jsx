@@ -15,7 +15,7 @@ import {
   CardFooter,
 } from "@chakra-ui/react";
 import { QUERY_CARDS } from "../utils/queries";
-import { ADD_CARD, UPDATE_CARD } from "../utils/mutations";
+import { ADD_CARD, UPDATE_CARD, UPDATE_DECK } from "../utils/mutations";
 import DeleteCard from "../components/DeleteCard/DeleteCard";
 import DeleteDeck from "../components/DeleteDeck/DeleteDeck";
 
@@ -39,6 +39,7 @@ const CardList = () => {
     }
   }, [data]);
 
+  const [updateDeck] = useMutation(UPDATE_DECK)
   const [updateCard] = useMutation(UPDATE_CARD);
   const [addCard] = useMutation(ADD_CARD, {
     refetchQueries: [{ query: QUERY_CARDS, variables: { deckId } }],
@@ -71,16 +72,29 @@ const CardList = () => {
   };
 
   // Handle form submission for adding a new card
-  const handleAddCard = (e) => {
+  const handleAddCard = async (e) => {
     e.preventDefault();
+    
     if (newCard.question && newCard.answers) {
-      addCard({
+      let cardId = [];
+      const card = await addCard({
         variables: {
-          deckId,
+          deckId: deckId,
           question: newCard.question,
-          answers: [newCard.answers],
+          answers: newCard.answers,
         },
       });
+      console.log(card)
+      cardId.push(card.data.addCard._id)
+      console.log(cardId)
+      updateDeck({
+        variables:{
+          deckId: deckId,
+          deckName: deckName,
+          cardIds: cardId,
+
+        }
+      })
       setNewCard({ question: "", answers: "" }); // Reset new card input fields
     }
   };
