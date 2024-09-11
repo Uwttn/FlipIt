@@ -59,3 +59,12 @@ mutation addDeck($deckName: String!, $user: ID!, $cardIds: [ID]!) {
   }
 }
 `;
+
+export const REMOVE_DECK = gql`
+  mutation removeDeck($deckId: ID!) {
+    removeDeck(_id: $deckId) {
+      _id
+      deckName
+    }
+  }
+`;
