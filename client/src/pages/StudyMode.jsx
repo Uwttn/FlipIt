@@ -1,34 +1,97 @@
-import { useParams, useLocation } from "react-router-dom";
-import { useMutation, useQuery } from "@apollo/client";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@apollo/client";
 import React, { useEffect, useState } from "react";
 import { Box, Button, Card } from "@chakra-ui/react";
 import { QUERY_CARDS } from "../utils/queries";
 
 const FlashCards = () => {
   const { deckId } = useParams();
-  const location = useLocation();
-  const deckName = location.state?.deckName;
-
-  console.log(deckId);
 
   const { loading, data } = useQuery(QUERY_CARDS, {
     variables: { deckId },
   });
 
-  const cards = data?.deck?.cards || [];
   const [flashCard, setFlashCard] = useState(null);
+  const [remainingCards, setRemainingCards] = useState([]);
+  const [savedForLater, setSavedForLater] = useState([]);
+  const [knownCards, setKnownCards] = useState([]);
+
+  const cards = data?.deck?.cards || [];
+
+  useEffect(() => {
+    console.log("cards:", cards);
+    console.log("remainingCards:", remainingCards);
+    console.log("--------------------");
+  }, [cards, remainingCards]);
 
   const randomCard = () => {
-    const randomIndex = Math.floor(Math.random() * cards.length);
-    setFlashCard(cards[randomIndex]);
-    console.log(cards[randomIndex]);
+    console.log("inside random");
+    console.log("inside random remaining " + remainingCards.length);
+    console.log("inside random saved " + savedForLater.length);
+    if (remainingCards.length === 0 && savedForLater.length === 0) {
+      alert("You have gone through all the cards!");
+      return;
+    }
+
+    if (remainingCards.length === 0 && savedForLater.length > 0) {
+      console.log("inside random setting remaining to saved");
+      setRemainingCards(savedForLater);
+      setSavedForLater([]);
+    }
+
+    const randomIndex = Math.floor(Math.random() * remainingCards.length);
+    setFlashCard(remainingCards[randomIndex]);
+  };
+
+  const handleIKnowThis = (card) => {
+    setKnownCards([...knownCards, card]);
+    const newRemainingCards = remainingCards.filter(
+      (c) => c.question !== card.question
+    );
+    console.log("remaining in I know this" + newRemainingCards.length);
+    setRemainingCards(newRemainingCards);
+    if (newRemainingCards.length === 0 && savedForLater.length > 0) {
+      setRemainingCards(savedForLater);
+      setSavedForLater([]);
+      console.log("Moved saved cards back to remaining cards.");
+    } else if (newRemainingCards.length === 0 && savedForLater.length === 0) {
+      alert("You have gone through all the cards!");
+    } else {
+      setRemainingCards(newRemainingCards);
+      randomCard();
+    }
+  };
+
+  const handleSave = (card) => {
+    setSavedForLater([...savedForLater, card]);
+    const newRemainingCards = remainingCards.filter(
+      (c) => c.question !== card.question
+    );
+    console.log("remaining in saved" + newRemainingCards.length);
+    setRemainingCards(newRemainingCards);
+    if (newRemainingCards.length === 0 && savedForLater.length > 0) {
+      setRemainingCards(savedForLater);
+      setSavedForLater([]);
+      console.log("Moved saved cards back to remaining cards.");
+    } else if (newRemainingCards.length === 0 && savedForLater.length === 0) {
+      alert("You have gone through all the cards!");
+    } else {
+      setRemainingCards(newRemainingCards);
+      randomCard();
+    }
   };
 
   useEffect(() => {
-    if (cards.length > 0) {
-      randomCard();
+    if (cards.length > 0 && remainingCards.length === 0) {
+      setRemainingCards(cards);
     }
   }, [data, cards]);
+
+  useEffect(() => {
+    if (remainingCards.length > 0) {
+      randomCard();
+    }
+  }, [remainingCards]);
 
   if (loading) {
     return <div>Loading...</div>;
@@ -41,7 +104,7 @@ const FlashCards = () => {
   return (
     <div
       className="flex-row justify-center"
-      style={{ backgroundColor: "#f7fafc", height: "468px" }}
+      style={{ backgroundColor: "#f7fafc", minHeight: "100vh" }}
     >
       <Box maxWidth="800px" mx="auto" p={4}>
         <h1
@@ -81,7 +144,7 @@ const FlashCards = () => {
                 colorScheme="red"
                 mr="30px"
                 mb="20px"
-                onClick={() => randomCard()}
+                onClick={() => handleIKnowThis(flashCard)}
               >
                 I know this one!
               </Button>
@@ -90,7 +153,7 @@ const FlashCards = () => {
                 width="150px"
                 colorScheme="green"
                 mb="20px"
-                onClick={() => randomCard()}
+                onClick={() => handleSave(flashCard)}
               >
                 Save this for later
               </Button>
