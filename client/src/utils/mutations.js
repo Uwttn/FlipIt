@@ -60,6 +60,7 @@ mutation addDeck($deckName: String!, $user: ID!, $cardIds: [ID]!) {
 }
 `;
 
+
 export const UPDATE_DECK = gql`
 mutation updateDeck($_id: ID!, $cardIds: [ID]!) {
   updateDeck(_id: $_id,  cards: $cardIds) {
@@ -71,3 +72,13 @@ mutation updateDeck($_id: ID!, $cardIds: [ID]!) {
   }
 }
 `;
+
+export const REMOVE_DECK = gql`
+  mutation removeDeck($deckId: ID!) {
+    removeDeck(_id: $deckId) {
+      _id
+      deckName
+    }
+  }
+`;
+

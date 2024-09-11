@@ -73,14 +73,19 @@ const resolvers = {
       ); */
       
     },
-    removeDeck: async (parent, { deckId }) => {
+    removeDeck: async (parent, { _id }) => {
       const deck = await Deck.findOneAndDelete({
-        _id: deckId,
+        _id: _id,
       });
-
+      // If you want to delete cards associated with this deck, you'd handle that separately.
+      if (deck) {
+        await Card.deleteMany({ _id: { $in: deck.cards } });
+      }
       return deck;
     },
+
     updateDeck: async (parent, { _id, cards }) => {
+
       const updateFields = {};
       //if (deckName) updateFields.deckName = deckName;
       if (cards) updateFields.cards = cards;

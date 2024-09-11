@@ -165,7 +165,7 @@ export default function ModalForm() {
               variant="outline"
               mb={4}
             >
-              Add
+              Add Card to Deck
             </Button>
           </ModalBody>
 
