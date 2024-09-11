@@ -64,14 +64,6 @@ const resolvers = {
         cards: cardIds,
         user: user
       });
-/** 
-      const updateUser = await User.findOneAndUpdate(
-        { _id: user },
-        { $push: { decks: deck } },
-        { new: true }
-        
-      ); */
-      
     },
     removeDeck: async (parent, { _id }) => {
       const deck = await Deck.findOneAndDelete({
@@ -112,13 +104,6 @@ const resolvers = {
         answers,
       });
       return card;
-      /** 
-      const updateDeck = await User.findOneAndUpdate(
-        {_id: deck._id },
-        { $push: {cards: card} },
-        { new: true },
-      ).populate("cards")
-      return updateDeck;*/
     },
     removeCard: async (parent, { _id }) => {
       const card = await Card.findOneAndDelete({
