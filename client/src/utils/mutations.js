@@ -67,7 +67,6 @@ mutation updateDeck($deckId: ID!, $deckName: String!) {
     deckName
     }
   }
-}
 `;
 
 export const REMOVE_DECK = gql`
