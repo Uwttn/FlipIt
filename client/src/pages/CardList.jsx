@@ -17,6 +17,7 @@ import {
 import { QUERY_CARDS } from "../utils/queries";
 import { ADD_CARD, UPDATE_CARD } from "../utils/mutations";
 import DeleteCard from "../components/DeleteCard/DeleteCard";
+import DeleteDeck from "../components/DeleteDeck/DeleteDeck";
 
 const CardList = () => {
   const { deckId } = useParams();
@@ -94,7 +95,6 @@ const CardList = () => {
       <Heading as="h1" mb={6} textAlign="center">
         {deckName}
       </Heading>
-
       {/* Card List */}
       <SimpleGrid columns={[1, 1]} spacing={4} mb={6}>
         {editableCards.map((card, index) => (
@@ -156,6 +156,7 @@ const CardList = () => {
           Add Card
         </Button>
       </Box>
+      <DeleteDeck style={{mx:"auto"}} deckId={deckId} />
     </Box>
   );
 };
