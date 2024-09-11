@@ -76,11 +76,9 @@ const resolvers = {
       return deck;
     },
 
-    updateDeck: async (parent, { _id, cards }) => {
-
+    updateDeck: async (parent, { _id, deckName}) => {
       const updateFields = {};
-      //if (deckName) updateFields.deckName = deckName;
-      if (cards) updateFields.cards = cards;
+      if (deckName) updateFields.deckName = deckName;
 
       return Deck.findOneAndUpdate(
         { _id: _id },
@@ -88,6 +86,7 @@ const resolvers = {
         { new: true }
       );
     },
+    
     addCard: async (parent, { question, answers }) => {
       const card = await Card.create({
         question,
