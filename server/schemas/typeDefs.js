@@ -34,7 +34,7 @@ const typeDefs = `
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
     addDeck(user: ID!, deckName: String!, cardIds: [ID]): Deck
-    updateDeck(_id: ID!, deckName: String!): Deck
+    updateDeck(_id: ID!, cardIds: [ID!]!): Deck
     removeDeck(_id: ID!): Deck
     addCard(_id: ID, question: String!, answers: [String]!): Card
     updateCard(_id: ID!, question: String, answers: [String]): Card

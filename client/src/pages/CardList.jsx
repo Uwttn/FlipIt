@@ -39,8 +39,12 @@ const CardList = () => {
     }
   }, [data]);
 
-  const [updateDeck] = useMutation(UPDATE_DECK)
-  const [updateCard] = useMutation(UPDATE_CARD);
+  const [updateDeck] = useMutation(UPDATE_DECK, {
+    refetchQueries: [{ query: QUERY_CARDS, variables: { deckId } }],
+  });
+  const [updateCard] = useMutation(UPDATE_CARD, {
+    refetchQueries: [{ query: QUERY_CARDS, variables: { deckId } }],
+  });
   const [addCard] = useMutation(ADD_CARD, {
     refetchQueries: [{ query: QUERY_CARDS, variables: { deckId } }],
   });
@@ -74,7 +78,7 @@ const CardList = () => {
   // Handle form submission for adding a new card
   const handleAddCard = async (e) => {
     e.preventDefault();
-    
+
     if (newCard.question && newCard.answers) {
       let cardId = [];
       const card = await addCard({
@@ -84,17 +88,15 @@ const CardList = () => {
           answers: newCard.answers,
         },
       });
-      console.log(card)
-      cardId.push(card.data.addCard._id)
-      console.log(cardId)
+      console.log(card);
+      cardId.push(card.data.addCard._id);
+      console.log(cardId);
       updateDeck({
-        variables:{
+        variables: {
           deckId: deckId,
-          deckName: deckName,
           cardIds: cardId,
-
-        }
-      })
+        },
+      });
       setNewCard({ question: "", answers: "" }); // Reset new card input fields
     }
   };
@@ -134,7 +136,10 @@ const CardList = () => {
             </CardBody>
             <CardFooter>
               {/* Save Button */}
-              <Button backgroundColor="rgb(99,182,195)" onClick={() => handleSaveCard(index)}>
+              <Button
+                backgroundColor="rgb(99,182,195)"
+                onClick={() => handleSaveCard(index)}
+              >
                 Save
               </Button>
               <DeleteCard cardId={card._id} deckId={deckId} />
@@ -170,7 +175,9 @@ const CardList = () => {
           Add Card
         </Button>
       </Box>
-      <DeleteDeck style={{mx:"auto"}} deckId={deckId} />
+      <Box textAlign="center" mb={6}>
+        <DeleteDeck deckId={deckId} />
+      </Box>
     </Box>
   );
 };

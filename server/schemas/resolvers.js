@@ -57,12 +57,11 @@ const resolvers = {
       return { token, user };
     },
 
-    addDeck: async (parent, {user, deckName, cardIds }, context) => {
-
+    addDeck: async (parent, { user, deckName, cardIds }, context) => {
       const deck = await Deck.create({
         deckName: deckName,
         cards: cardIds,
-        user: user
+        user: user,
       });
     },
     removeDeck: async (parent, { _id }) => {
@@ -76,17 +75,16 @@ const resolvers = {
       return deck;
     },
 
-    updateDeck: async (parent, { _id, deckName}) => {
-      const updateFields = {};
-      if (deckName) updateFields.deckName = deckName;
-
+    updateDeck: async (parent, { _id, cardIds }) => {
       return Deck.findOneAndUpdate(
         { _id: _id },
-        { $set: updateFields },
+        {
+          $push: { cards: { $each: cardIds } },
+        },
         { new: true }
       );
     },
-    
+
     addCard: async (parent, { question, answers }) => {
       const card = await Card.create({
         question,
