@@ -12,7 +12,7 @@ const Header = () => {
       <div className="container-nav flex-row justify-space-between-lg justify-center align-center">
         <div>
           <Link className="text-light" to="/">
-            <img className="logo" src="FlipIt Logo.png" alt="FlipIt Logo" />
+            <img className="logo" src="/FlipIt Logo.png" alt="FlipIt Logo" />
           </Link>
         </div>
         <div className="menu">
