@@ -4,12 +4,12 @@ import { Box, Button, Card } from "@chakra-ui/react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_CARDS } from "../utils/queries";
-import ConfettiComponent from "../components/Confetti/ConfettiComponent";
+
 
 const FlashCards = () => {
   const { deckId } = useParams();
   const navigate = useNavigate();
-  const [isExploding, setIsExploding] = useState(false); // Control confetti explosion
+  const [isExploding, setIsExploding] = useState(false); //
 
   const { loading, data } = useQuery(QUERY_CARDS, {
     variables: { deckId },
