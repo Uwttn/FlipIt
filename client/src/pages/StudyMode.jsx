@@ -1,15 +1,15 @@
 // FlashCards.jsx
 import React, { useState, useEffect } from "react";
 import { Box, Button, Card } from "@chakra-ui/react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import { QUERY_CARDS } from "../utils/queries";
 
 
 const FlashCards = () => {
   const { deckId } = useParams();
-  const navigate = useNavigate();
-  const [isExploding, setIsExploding] = useState(false); //
+  // const navigate = useNavigate();
+  // const [isExploding, setIsExploding] = useState(false); //
 
   const { loading, data } = useQuery(QUERY_CARDS, {
     variables: { deckId },
@@ -22,15 +22,15 @@ const FlashCards = () => {
 
   const cards = data?.deck?.cards || [];
 
-  const handleConfetti = () => {
-    setIsExploding(true);
+  // const handleConfetti = () => {
+  //   setIsExploding(true);
 
-    setTimeout(() => {
-      setIsExploding(false);
-      alert("🎉 You're done with all cards!");
-      navigate("/study");
-    }, 900);
-  };
+  //   setTimeout(() => {
+  //     setIsExploding(false);
+  //     alert("🎉 You're done with all cards!");
+  //     navigate("/study");
+  //   }, 900);
+  // };
 
   useEffect(() => {
     console.log("cards:", cards);
@@ -39,7 +39,7 @@ const FlashCards = () => {
 
   const randomCard = () => {
     if (remainingCards.length === 0 && savedForLater.length === 0) {
-      handleConfetti();
+      // handleConfetti();
       return;
     }
 
@@ -62,7 +62,7 @@ const FlashCards = () => {
       setRemainingCards(savedForLater);
       setSavedForLater([]);
     } else if (newRemainingCards.length === 0 && savedForLater.length === 0) {
-      handleConfetti();
+      // handleConfetti();
     } else {
       setRemainingCards(newRemainingCards);
       randomCard();
@@ -79,7 +79,7 @@ const FlashCards = () => {
       setRemainingCards(savedForLater);
       setSavedForLater([]);
     } else if (newRemainingCards.length === 0 && savedForLater.length === 0) {
-      handleConfetti();
+    //   handleConfetti();
     } else {
       setRemainingCards(newRemainingCards);
       randomCard();
@@ -119,8 +119,7 @@ const FlashCards = () => {
           Click and hold to flip the card over
         </h4>
 
-        {/* Display Confetti Explosion */}
-        <ConfettiComponent isExploding={isExploding} />
+       
 
         <Card
           width="600px"
