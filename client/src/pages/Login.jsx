@@ -113,6 +113,8 @@ const Login = () => {
           <Text as="span" color="teal.500">
             <Link to="/signup">Sign up</Link>
           </Text>
+          <br />
+          {/* <Link>Forgot Password</Link> */}
         </Text>
       </Box>
     </Flex>
