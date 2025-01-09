@@ -100,14 +100,6 @@ If you have a suggestion that would make this better, please fork the repo and c
 
 <!-- CONTACT -->
 
-## Contact
-
-- Mary Elenius
-- William Allred:
-- Shreya Yerragudi:
-- Brian Zhen:
-- Jose Muchati: muchati@icloud.com
-
 ## Acknowledgments
 
 - [Mary Elenius](https://github.com/404pandas)
