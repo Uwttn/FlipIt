@@ -1,3 +1,4 @@
+import React from "react";
 import ReactDOM from "react-dom/client";
 import {
   createBrowserRouter,
@@ -19,6 +20,7 @@ import CardList from "./pages/CardList.jsx";
 import StudyMode from "./pages/StudyMode.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
 import PrivateRoute from "./utils/PrivateRoute";
+import ForgotPassword from "./pages/ForgotPassword";
 
 const router = createBrowserRouter([
   {
@@ -41,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "/login",
         element: <Login />,
+      },
+      {
+        path: "/ForgotPassword",
+        element: <ForgotPassword />,
       },
       {
         path: "/signup",

@@ -115,6 +115,7 @@ const Login = () => {
           </Text>
           <br />
           {/* <Link>Forgot Password</Link> */}
+          <a href="./ForgotPassword" style={{ color: 'red',}}>Forgot password</a>
         </Text>
       </Box>
     </Flex>
